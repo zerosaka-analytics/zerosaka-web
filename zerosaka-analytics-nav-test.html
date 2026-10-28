@@ -1,0 +1,601 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ゼロサカ｜分析 完成版 v2.4.0</title><style>
+:root{color-scheme:light;--bg:#f3f6f2;--ink:#173b2b;--mut:#65776c;--line:#dce6de;--gold:#c8a358}*{box-sizing:border-box}body{margin:0;background:var(--bg);font:14px/1.65 system-ui,-apple-system,"Noto Sans JP",sans-serif;color:var(--ink)}main{max-width:1050px;margin:auto;padding:22px 14px 70px}header{background:#183b2c;color:#fff;padding:20px 16px}header>div{max-width:1020px;margin:auto}h1{margin:0;font-size:23px}h2{font-size:19px;margin:0 0 12px}p{margin:7px 0}.muted{color:var(--mut);font-size:12px}.light{color:#d4e5d7}.panel{background:#fff;border:1px solid var(--line);border-radius:13px;padding:17px;margin:14px 0}.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0}.tabs button{padding:13px;background:#fff;border:1px solid var(--line);border-radius:9px;color:var(--ink);font-weight:700}.tabs button.active{background:var(--ink);color:#fff}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.stat{padding:13px;background:#fff;border:1px solid var(--line);border-radius:10px}.stat b{display:block;font-size:23px}.stat span{font-size:11px;color:var(--mut)}.series{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:10px}.series article{border:1px solid var(--line);border-radius:11px;padding:15px;background:#fff}.series h3{margin:0 0 6px;font-size:17px}.pill{display:inline-block;border-radius:30px;background:#e8eee8;padding:3px 10px;font-size:12px;font-weight:700}.pill.hold{background:#f4e9ce}.pill.good{background:#e0f1e4}.pill.review{background:#f4e4df}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin:12px 0}.metrics div{background:#f5f8f5;padding:7px;border-radius:6px}.metrics small{display:block;color:var(--mut);font-size:10px}.metrics strong{font-size:15px}.bar{height:7px;border-radius:7px;background:#e9eee9;overflow:hidden}.bar i{display:block;height:100%;background:#4c8963;border-radius:7px}.notes{font-size:12px;color:#55695d}.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.controls input,.controls select,button{font:inherit;min-height:42px}.controls input,.controls select{border:1px solid #cfdad0;border-radius:8px;padding:8px;max-width:100%;background:white}.controls input{flex:1;min-width:150px}.btn{border:1px solid var(--ink);border-radius:8px;background:#fff;color:var(--ink);padding:9px 13px;font-weight:650}.video{padding:12px 0;border-bottom:1px solid var(--line)}.video:last-child{border-bottom:0}.video strong{display:block;line-height:1.5;font-size:13px}.video .meta{font-size:11px;color:var(--mut)}.video select{max-width:100%;margin-top:7px;border:1px solid var(--line);border-radius:6px;padding:7px;background:#fff}.notice{background:#fff8e9;border:1px solid #e8d9b8;border-radius:9px;padding:13px;font-size:12px;margin-top:12px}.small{font-size:11px}footer{color:var(--mut);font-size:11px;margin-top:20px}@media(min-width:700px){.stats{grid-template-columns:repeat(4,1fr)}main{padding-top:28px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}</style><style id="v237style">.app-nav{position:sticky;top:0;z-index:20;background:#f3f6f2;padding:9px 0 7px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}.app-nav button{font-size:12px;min-height:46px;padding:6px 2px;border-radius:9px;border:1px solid #dce6de;background:white;color:#173b2b;font-weight:700}.app-nav button[aria-current="page"]{background:#173b2b;color:white}.app-view[hidden]{display:none!important}.app-view>.panel:first-child{margin-top:10px}.app-view-title{font-size:18px;margin:14px 0 2px}.app-view-sub{color:#65776c;font-size:12px;margin:0 0 12px}.quick{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.quick button{background:#fff;border:1px solid #dce6de;border-radius:9px;padding:10px 6px;color:#173b2b;font-weight:700}.panel{overflow-wrap:anywhere}@media(max-width:450px){main{padding:12px 10px 65px}.panel{padding:13px}.stats .stat b{font-size:20px}.controls .btn{flex-grow:1}.series{grid-template-columns:1fr}}</style></head><body><style id="zerosaka-home-nav-style">.zerosaka-home-nav{position:sticky;top:0;z-index:99999;background:#123428;padding:9px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:system-ui,sans-serif;box-shadow:0 2px 7px #0002}.zerosaka-home-nav a{display:inline-block;background:#fff;color:#123428!important;text-decoration:none!important;border-radius:9px;padding:10px 13px;font-weight:800;font-size:14px;line-height:1.3}.zerosaka-home-nav span{color:#e0eee4;font-size:12px}</style><div class="zerosaka-home-nav"><a href="./zerosaka-unified-nav-test.html">← 統合ホームへ戻る</a><span>統合テスト版</span></div>
+<header><div><div class="light small">ZEROSAKA / CREATOR ANALYTICS</div><h1>ゼロサカ｜分析 完成版 v2.4.0</h1><div class="light small">YouTube自動取得 + 121本の過去データ</div></div></header>
+<main><section class="panel" style="border:2px solid #c8a358"><h2>YouTube 自動連携</h2><p class="muted">ログイン後に最新データを取得。YouTube管理アカウントで接続してください。</p><div class="controls"><button class="btn" id="connect" style="background:#d6ad55;color:#18271c">YouTubeデータを更新</button><select id="period" aria-label="集計期間"><option value="28">直近28日</option><option value="60">直近60日</option><option value="90">直近90日</option><option value="all">全期間</option></select><button class="btn" id="restore">保存済みデータに戻す</button><button class="btn" id="copyAll" type="button" style="background:#183b2c;color:white">分析結果をコピー</button></div><p class="muted" id="copyStatus" role="status"></p><p id="liveStatus" role="status">現在は2026年9〜10月の保存済み121本を表示しています。</p><p class="muted" id="liveInfo">自動更新には接続操作が必要です。データは端末内で処理し、このサイトのサーバーへ送信しません。</p></section><div class="notice"><b>分析上の注意</b>：表示中のデータの「再生数」「登録者獲得数」は対象期間の数値です。平均視聴割合は動画別の再生数で加重平均。保存済みデータには公開日・高評価・コメント・期間推移が未収録のため、存続判定は<b>参考評価</b>です。公開からの経過日数が違う動画の比較にも注意。</div>
+<section class="panel" id="sharePanel" style="border:2px solid #c8a358"><h2>企画別レポートをコピー <span class="pill">NEW</span></h2><p class="muted">制作室に渡す企画だけを選んでコピーできます。現在表示しているGoogle取得データ（または保存済みデータ）が対象です。</p><div class="controls"><select id="shareType" aria-label="レポート動画形式"><option value="Shorts">Shorts</option><option value="通常動画">通常動画</option></select><select id="shareCategory" aria-label="コピーする企画"></select><button class="btn" id="shareCopy" type="button" style="background:#183b2c;color:#fff">この企画だけコピー</button></div><p class="muted" id="shareStatus" role="status"></p></section><div class="tabs"><button id="long" type="button">通常動画</button><button id="short" type="button">Shorts</button></div>
+<div id="stats" class="stats"></div>
+<section class="panel" id="verifyPanel" style="border:2px solid #c8a358"><h2>公開後データ・1本検証 <span class="pill">NEW</span></h2><p class="muted">正確性の確認専用。まず1本の公開日と日別実績を照合します。「過去の全動画を読み込む」で、現在の集計期間より前の動画も選択できます。YouTube Studioと一致するまで比較ランキングは参考扱いです。</p><div class="controls"><button class="btn" id="verifyHistory" type="button">過去の全動画を読み込む</button></div><p id="verifyHistoryStatus" class="muted">古い動画を検証するときに押してください。通常の集計結果は変更しません。</p><div class="controls"><select id="verifyVideo" aria-label="検証する動画" style="max-width:100%"></select><select id="verifyDays" aria-label="検証日数"><option value="7">7日</option><option value="14">14日</option><option value="30">30日</option></select><button class="btn" id="verifyFetch" type="button">この1本を検証</button></div><p id="verifyStatus" role="status" class="muted">Google接続後に検証できます。</p><div id="verifyResult"></div><p class="notes">日付の境界は暫定的に公開日のUTC日付を使用。YouTube Analyticsの日別集計は太平洋時間のため、公開日時によって初日がずれる場合があります。データ反映の遅れや欠損は自動で補完しません。</p></section><section class="panel" id="earlyPanel" style="border:2px solid #c8a358"><h2>公開後7・14・30日データ出力 <span class="pill">v2.3.14</span></h2><p class="muted">公開日から同じ日数の再生数・登録者獲得・平均視聴割合を比較します。Google接続後に取得できます。上部の「通常動画／Shorts」を切り替えられます。「過去の全動画を読み込む」で期間外の投稿も比較対象にできます。</p><div class="controls"><select id="earlyCategory" aria-label="比較する企画"></select><select id="earlyDays" aria-label="公開後の日数"><option value="7">公開後7日</option><option value="14">公開後14日</option><option value="30">公開後30日</option></select><select id="earlyMetric" aria-label="比較指標"><option value="views">再生数</option><option value="subs">登録者獲得</option><option value="ret">平均視聴割合</option></select><button class="btn" id="earlyFetch" type="button">比較データを取得</button><button class="btn" id="earlyExport" type="button" style="background:#183b2c;color:white">選択した期間をCSV保存</button><button class="btn" id="earlyExportAll" type="button" style="background:#d6ad55;color:#18271c">全動画の詳細データを保存</button></div><p class="muted" id="earlyStatus" role="status">Googleで接続してから「比較データを取得」を押してください。</p><div id="earlyResults"></div><div class="panel" style="border:1px solid #c8a358;margin-top:14px"><h3 style="margin:0 0 8px">選択した企画の全動画詳細データ</h3><p class="muted">上の「比較する企画」を選び、「比較データを取得」後に利用してください。取得済みの動画について7・14・30日をまとめて出力します。未取得と0は区別します。</p><div class="controls"><button class="btn" id="categoryDetailCopy" type="button">この企画の詳細データをコピー</button><button class="btn" id="categoryDetailCsv" type="button">この企画の詳細CSVを保存</button></div><p id="categoryDetailStatus" class="muted" role="status"></p></div><p class="notes">「全動画・7/14/30日を一括CSV保存」は、Shorts・通常動画をまとめて取得し、3期間を1ファイルに出力します。通信に時間がかかることがあります。</p><p class="notes">CSVは動画ごとに1行。期間・公開日・形式・企画・動画ID・再生数・登録者増加・平均視聴割合・日別行数・取得状態を出力します。スマホからこのチャットにファイルを添付してください。</p><p class="notes">公開日を1日目とし、7日＝公開日から7暦日分です。YouTube Analyticsの日別集計（太平洋時間基準）と公開日のUTC日付に時差があるため、公開日前後の境界には最大1日程度のずれが生じ得ます。取得済みの最新日は通常2日前まで。必要日数に満たない動画は比較から除外します。日別行が少ない動画は、ゼロ実績の日が省略された可能性とデータ欠損の可能性を区別できないため、未確認と表示します。表示は取得時点の実績で、公開直後のリアルタイム数値ではありません。</p></section>
+<section class="panel"><h2>企画別の成績・育成判断（参考）</h2><p class="muted">同じ形式の企画同士で比較。「その他」は数字のみ。未投稿の企画は判定保留。</p><div id="series" class="series"></div></section>
+<section class="panel"><h2>動画の分類・確認</h2><p class="muted">企画と動画形式（通常動画／Shorts）を変更できます。動画形式の修正はこの端末に保存されます。</p><div class="controls"><input id="search" aria-label="動画検索" placeholder="動画タイトルを検索"><select id="filter" aria-label="企画絞り込み"></select><button class="btn" id="export">動画一覧をCSV保存</button></div><p class="muted" id="count"></p><div id="videos"></div></section>
+<section class="panel"><h2>指標の見方</h2><p class="notes"><b>1本平均再生数</b>＝企画の再生数÷本数。<b>登録者獲得率</b>＝登録者獲得数÷再生数×1,000（1,000再生あたり）。<b>平均視聴割合</b>＝各動画の平均視聴割合を再生数で加重平均。100%超はリピート視聴等で起こり得ます。</p><p class="notes"><b>参考評価の条件</b>：投稿3本未満、または同形式の定期企画全体が10本未満なら判定保留。3本以上は同形式の定期企画平均と比較し、登録者獲得効率が特に高く再生数も一定水準なら「強化候補」、再生数と視聴割合が良好なら「維持候補」、弱い指標が目立つ場合は「改善・検証」などと表示。10本未満の企画は暫定評価です。基準は相対比較であり、最終的な存続判断ではありません。</p><p class="notes">企画の新旧や制作工数、動画公開後の日数は評価に含めていません。高評価率・コメント率・トレンドも未取得です。</p></section><footer>ZEROSAKA · v2.4.0 · YouTube Analytics API</footer></main>
+<script>let DATA=[{"id":"rZ29nWTgv3A","title":"この4人、1人だけ違う。誰？⚽️ 分かったらサッカー通！ #Shorts","type":"Shorts","category":"クイズ","views":5130,"ret":109.02,"subs":7},{"id":"5kmT6iF_URo","title":"PKを止めてほしい。誰を選ぶ？ マルティネス vs ディオゴ・コスタ vs ドンナルンマ #Shorts","type":"Shorts","category":"CHOICE","views":4729,"ret":107.42,"subs":3},{"id":"khYEr0B_tNY","title":"10秒で分かる？この選手、誰？🧤 PKストップが大きな武器！ #Shorts","type":"Shorts","category":"クイズ","views":5885,"ret":133.21,"subs":4},{"id":"pMcSZeUc5qA","title":"昔のサッカールール、1つだけ嘘！見抜ける？⚽ #Shorts","type":"Shorts","category":"クイズ","views":2407,"ret":89.64,"subs":2},{"id":"5vjfJXPSSc0","title":"10秒で分かる？この選手、誰？⚽️ 圧倒的な身体能力を誇るGK！ #Shorts","type":"Shorts","category":"クイズ","views":4178,"ret":127.29,"subs":0},{"id":"9ofq78QcLvU","title":"昭和のサッカー写真に「令和」が1つ…どこ？⚽️ #Shorts","type":"Shorts","category":"クイズ","views":3289,"ret":114.41,"subs":1},{"id":"emVRqML9nHc","title":"日本代表 vs ニュージーランド｜今日の注目ポイント3つ！キリンカップ決勝へ","type":"Shorts","category":"その他","views":3046,"ret":84.76,"subs":4},{"id":"C3DZBrhrPaw","title":"キャプテンにするなら誰？ ファン・ダイク vs ロドリ vs ウーデゴール #Shorts","type":"Shorts","category":"CHOICE","views":2359,"ret":89.42,"subs":4},{"id":"J59WluO43RM","title":"今の日本代表に全盛期で1人戻すなら？ 本田圭佑 vs 中田英寿 vs 中村俊輔 #Shorts","type":"Shorts","category":"CHOICE","views":2370,"ret":122.41,"subs":3},{"id":"WzkJ0Ujz9Wc","title":"1人だけ違う！この4人の共通点、分かる？⚽️ #Shorts","type":"Shorts","category":"クイズ","views":2078,"ret":80.36,"subs":1},{"id":"1gi-BQOhKKI","title":"日本代表3-1勝利！松木・塩貝・上田がゴール｜日本vsウルグアイ","type":"Shorts","category":"その他","views":1645,"ret":142.07,"subs":1},{"id":"4hgPJYtlNRg","title":"昭和のサッカー写真に“令和”が1つ！どこか分かる？⚽️ #Shorts","type":"Shorts","category":"クイズ","views":3118,"ret":110.3,"subs":0},{"id":"ijeGu-H96MA","title":"ネーションズリーグ7試合連続ゴール！この記録、誰？⚽️ #Shorts","type":"Shorts","category":"クイズ","views":2129,"ret":86.06,"subs":1},{"id":"SdN1LnnO1JY","title":"プレミア優勝から一番遠ざかっているのはどこ？⚽️ #Shorts","type":"Shorts","category":"クイズ","views":2034,"ret":102.7,"subs":1},{"id":"rdkavwLkRro","title":"2025年夏、この3人で移籍金が一番高かったのは誰？💰⚽️ #Shorts","type":"Shorts","category":"クイズ","views":2103,"ret":89.59,"subs":0},{"id":"nYIGi0JAJDE","title":"この3人の共通点、分かる？CLを見てる人なら分かるはず⚽️ #Shorts","type":"Shorts","category":"クイズ","views":2331,"ret":99.64,"subs":3},{"id":"T73yS5jZI5s","title":"10秒で分かる？この選手、誰？⚽️ 左足が大きな武器！ #Shorts","type":"Shorts","category":"クイズ","views":2521,"ret":121.46,"subs":0},{"id":"ScesPdshUpg","title":"プレミアのアシスト王になったことがないのは誰？⚽️ #Shorts","type":"Shorts","category":"クイズ","views":1931,"ret":104.56,"subs":0},{"id":"LMRzk2Pu24Y","title":"松木玖生、代表デビュー戦でゴール！｜日本vsウルグアイ","type":"Shorts","category":"その他","views":2608,"ret":60.55,"subs":2},{"id":"26YGibYHcnU","title":"ファンタジスタといえば誰？ ヴィルツ vs パーマー vs ブルーノ・フェルナンデス #Shorts","type":"Shorts","category":"CHOICE","views":1671,"ret":84.55,"subs":0},{"id":"2EAk66UnVqg","title":"10秒で分かる？この選手、誰？⚽️ 中盤から攻撃を組み立てる日本人MF！ #Shorts","type":"Shorts","category":"クイズ","views":2560,"ret":125.18,"subs":1},{"id":"OQKD9zI0Y7I","title":"BIG6、お荷物対決！？マンU vs トッテナム #Shorts","type":"Shorts","category":"その他","views":991,"ret":86.23,"subs":0},{"id":"gxuBTna7xPQ","title":"日本代表、PK戦で勝利！REIのMVPは鈴木彩艶｜次は決勝へ！","type":"Shorts","category":"その他","views":957,"ret":158.41,"subs":0},{"id":"BVpAAVG8RUk","title":"FKを1本だけ任せるなら誰？ ソボスライ vs チャルハノール vs グリマルド vs デクラン・ライス #Shorts","type":"Shorts","category":"CHOICE","views":1365,"ret":88.2,"subs":2},{"id":"oelqRdMDBHI","title":"10秒で分かる？この選手、誰？⚽️ 激しい対人守備が武器！ #Shorts","type":"Shorts","category":"クイズ","views":1846,"ret":152.01,"subs":3},{"id":"BDYAOfsdKoM","title":"【前半終了】日本 0-0 エクアドル｜後半に先制できるか！","type":"Shorts","category":"その他","views":1867,"ret":85.45,"subs":0},{"id":"T61rxDpmlqM","title":"このクラブ遍歴、誰か分かる？⚽️ 超有名選手です！ #Shorts","type":"Shorts","category":"クイズ","views":1965,"ret":125.02,"subs":0},{"id":"hSTamHGVvJA","title":"1対1で絶対止めてほしい。誰を選ぶ？ サリバ vs パチョ vs バストーニ #Shorts","type":"Shorts","category":"CHOICE","views":1207,"ret":80.09,"subs":1},{"id":"w549YALSVCo","title":"【意外すぎる】2026年夏、移籍金を一番使ったのはどこ？⚽️ #Shorts","type":"Shorts","category":"クイズ","views":1325,"ret":79.9,"subs":0},{"id":"olSA_86bGls","title":"日本代表 vs エクアドル｜今日の注目ポイント3つ！【試合前PREVIEW】","type":"Shorts","category":"その他","views":1426,"ret":55.38,"subs":2},{"id":"7JTuuoghtKw","title":"今季プレミア、一番躍進するのはどこ？ ブレントフォード vs リーズ vs ブライトン vs エヴァートン #Shorts","type":"Shorts","category":"CHOICE","views":1308,"ret":100.13,"subs":2},{"id":"nEPTaFKnZpc","title":"#3 日本代表選手って給料もらえてるの？｜レイとゼロからサッカー","type":"Shorts","category":"ゼロからサッカー","views":1291,"ret":78.8,"subs":1},{"id":"zZJX18hSv1k","title":"新しい日本は、ウルグアイの“激しさ”を越えられるか？｜日本×ウルグアイ PREVIEW #Shorts","type":"Shorts","category":"その他","views":1723,"ret":69.01,"subs":4},{"id":"4gaVtz5ixic","title":"【超難問】最後にCLに出場したのが一番昔なのはどこ？⚽️ #Shorts","type":"Shorts","category":"クイズ","views":1256,"ret":74.91,"subs":0},{"id":"6zQ68OmcINs","title":"このクラブ遍歴、誰？⚽️ 何クラブ目で分かる？ #Shorts","type":"Shorts","category":"クイズ","views":1529,"ret":125.32,"subs":2},{"id":"Gp_23jaBrcA","title":"この3人の共通点、分かる？⚽️ サッカー通なら気づくかも！ #Shorts","type":"Shorts","category":"クイズ","views":1101,"ret":70.57,"subs":0},{"id":"N9MBrqEIRLs","title":"先に色を出したのはドイツ。でも最後に握ったのはオランダ。｜オランダ×ドイツ REVIEW #Shorts","type":"Shorts","category":"その他","views":989,"ret":38.74,"subs":0},{"id":"DxGDzPY0tAg","title":"10秒で分かる？このレジェンド、誰？⚽️ 華麗なボールコントロール！ #Shorts","type":"Shorts","category":"クイズ","views":1217,"ret":142.85,"subs":2},{"id":"McdCmXRHqHY","title":"10秒で分かる？この選手、誰？⚽️ プレミアでプレーするMF！ #Shorts","type":"Shorts","category":"クイズ","views":1434,"ret":114.09,"subs":0},{"id":"XQ1CFBTRkOw","title":"シャビか、クロップか。先に“自分の色”を出すのはどっちだ？｜オランダ×ドイツ PREVIEW #Shorts","type":"Shorts","category":"その他","views":987,"ret":62.34,"subs":0},{"id":"SurhkRhdUoY","title":"10秒で分かる？この選手、誰？⚽️ 小柄でも球際に強いMF！ #Shorts","type":"Shorts","category":"クイズ","views":1093,"ret":136.81,"subs":1},{"id":"BIZMK9S2eto","title":"今季プレミア、ブレイクするのは誰？ 4人の注目株からCHOICE！ #Shorts","type":"Shorts","category":"CHOICE","views":878,"ret":111.96,"subs":0},{"id":"1eRBmYbewyE","title":"現在の市場価値、この3人で一番高いのは誰？💰⚽️ #Shorts","type":"Shorts","category":"クイズ","views":1010,"ret":78.63,"subs":0},{"id":"bXubFVFwODc","title":"#6 ビルドアップって何？｜レイとゼロからサッカー","type":"Shorts","category":"ゼロからサッカー","views":1027,"ret":73.4,"subs":1},{"id":"goO3qEV_r-I","title":"EURO決勝の雪辱なるか？ イングランドvsスペイン リベンジマッチ #Shorts","type":"Shorts","category":"その他","views":806,"ret":66.32,"subs":0},{"id":"rYG0X6TI8ho","title":"松木だけじゃない！日本代表のMVPは誰？｜日本vsウルグアイ","type":"Shorts","category":"その他","views":400,"ret":127.93,"subs":0},{"id":"AA3YBLBEi7o","title":"【緊急速報】日本代表がキリンカップ優勝！上田綺世＆堂安律がゴール！","type":"Shorts","category":"その他","views":951,"ret":95.53,"subs":0},{"id":"fy8srl6NluI","title":"#1 日本代表の本拠地ってどこ？｜レイとゼロからサッカー","type":"Shorts","category":"ゼロからサッカー","views":853,"ret":77.96,"subs":0},{"id":"ZzCgYPAKkuY","title":"10秒で分かる？この選手、誰？⚽️ ドリブルとカットインが武器！ #Shorts","type":"Shorts","category":"クイズ","views":627,"ret":123.02,"subs":0},{"id":"T6g5YHHoAIg","title":"#4 ワールドカップに出たらいくらもらえるの？｜レイとゼロからサッカー","type":"Shorts","category":"ゼロからサッカー","views":578,"ret":70.02,"subs":0},{"id":"PbcqPssPcPc","title":"#5 日本代表選手1人はW杯でいくらもらったの？｜レイとゼロからサッカー","type":"Shorts","category":"ゼロからサッカー","views":584,"ret":66.66,"subs":1},{"id":"0H-_k7cSGMY","title":"2026 ゼロサカ・バロンドール｜本当にふさわしいTOP10を勝手に決めてみた！【PART1】","type":"通常動画","category":"その他","views":72,"ret":9.07,"subs":1},{"id":"C7KjDMhRSVA","title":"【レイのサカトピ #1】よりによって次がアンフィールド…マンチェスター・シティに厳しい声","type":"通常動画","category":"サカトピ","views":60,"ret":40.81,"subs":0},{"id":"66YHHpGvwCo","title":"ラスト10分、1点欲しい。誰を入れる？ ハーランド vs ケイン vs エンバペ #Shorts","type":"Shorts","category":"CHOICE","views":425,"ret":91.36,"subs":1},{"id":"0LGWBhD_3nE","title":"#7 アンカーって何？｜レイとゼロからサッカー","type":"Shorts","category":"ゼロからサッカー","views":431,"ret":66.81,"subs":0},{"id":"1TuNNt7E83A","title":"このダービー、勝負を決めたのは“赤”だった。｜アトレティコ×レアル REVIEW #Shorts","type":"Shorts","category":"その他","views":90,"ret":47.58,"subs":0},{"id":"UDbU_lKIdSY","title":"#2 Jヴィレッジって何？｜レイとゼロからサッカー","type":"Shorts","category":"ゼロからサッカー","views":321,"ret":49.03,"subs":0},{"id":"Id3L6yNGL-I","title":"中盤を制したのに、なぜ負けた？｜レアル×インテル【CL REVIEW】#Shorts","type":"Shorts","category":"その他","views":64,"ret":49.7,"subs":0},{"id":"FMacenwandI","title":"【左足で道を描く。】ニコ・パスの「ココ」を見て！ #Shorts","type":"Shorts","category":"その他","views":93,"ret":36.69,"subs":0},{"id":"5FtCAaVPOb8","title":"困ったら、オレに預けろ。ブライアン・ブロビーの「ココ」を見て！ #Shorts","type":"Shorts","category":"その他","views":102,"ret":45.76,"subs":0},{"id":"YtDQBAmPJig","title":"【一人じゃ止められない。】クヴァラツヘリアの「ココ」を見て！ #Shorts","type":"Shorts","category":"その他","views":46,"ret":66.03,"subs":0},{"id":"BuM-uayTteM","title":"10秒で分かる？この選手、誰？⚽️ ドリブルで運べる大型アタッカー！ #Shorts","type":"Shorts","category":"クイズ","views":132,"ret":101.79,"subs":0},{"id":"vy2YlLrAb6M","title":"ケインが決めていれば…イングランド、スペインに逆転負け #Shorts","type":"Shorts","category":"その他","views":56,"ret":57.44,"subs":0},{"id":"4DG-uPV1zAE","title":"最下位予想だったハル・シティがプレミア3位！？何が起きてるの😂｜REIのこれ見た？ #Shorts","type":"Shorts","category":"その他","views":31,"ret":52.38,"subs":0},{"id":"Dpl8Of37Vdw","title":"10秒で分かる？この選手、誰？⚽️ ゴール前に飛び込むMF！ #Shorts","type":"Shorts","category":"クイズ","views":97,"ret":101.33,"subs":0},{"id":"INJaimNAaes","title":"この選手、誰？⚽️ 3ヒントで分かったらすごい！ #Shorts","type":"Shorts","category":"クイズ","views":95,"ret":105.7,"subs":0},{"id":"9WQbePs5IJo","title":"【パスコースは3次元。】ウーデゴールの「ココ」を見て！ #Shorts","type":"Shorts","category":"その他","views":87,"ret":47.44,"subs":0},{"id":"QhJBmtszDpU","title":"ガブリエウ・ジェズス、まさかのバルセロナへ！？本命はフリアンだった【移籍情報】これは決定版でOK。","type":"Shorts","category":"その他","views":48,"ret":43.29,"subs":0},{"id":"BjZ5etthU3U","title":"10秒で分かる？この選手、誰？⚽️ 今季セリエAでゴール量産中！ #Shorts","type":"Shorts","category":"クイズ","views":88,"ret":99.45,"subs":0},{"id":"y5k_dKyR2do","title":"10秒で分かる？この選手、誰？⚽️ セットプレーも武器の万能MF！ #Shorts","type":"Shorts","category":"クイズ","views":73,"ret":102.77,"subs":0},{"id":"rFKk5bRTwHs","title":"【いつ動く？】ニコ・オライリーの「ココ」を見て！ #Shorts","type":"Shorts","category":"その他","views":61,"ret":39.12,"subs":0},{"id":"0RXuJbIid0Q","title":"アーセナルのダウマン、ホントに16歳？？？ #Shorts","type":"Shorts","category":"その他","views":65,"ret":61.29,"subs":0},{"id":"aq1ZPHkI9Dw","title":"アーセナルの鉄壁、ブライトンは崩せるか？｜ブライトン対アーセナル PREVIEW #Shorts","type":"Shorts","category":"その他","views":51,"ret":67.61,"subs":0},{"id":"ZrGlNAneI0E","title":"どこからでも来る。バルサの波状攻撃をセビージャは止められるか？｜PREVIEW #Shorts","type":"Shorts","category":"その他","views":47,"ret":33.56,"subs":0},{"id":"GFG1fghsQ_k","title":"プレミア1クラブ平均の移籍金を私にください😂 4人補強してみた！｜レイの妄想シリーズ① #Shorts","type":"Shorts","category":"その他","views":20,"ret":56.15,"subs":0},{"id":"UsF2to_BwsY","title":"10秒で分かる？この選手、誰？⚽️ 万能戦士を当てろ！ #Shorts","type":"Shorts","category":"クイズ","views":44,"ret":106.06,"subs":0},{"id":"h67vNLXFyZs","title":"「この16歳、ヤバすぎる。｜マックス・ダウマン」","type":"Shorts","category":"その他","views":20,"ret":42.43,"subs":0},{"id":"IUBM8Yhc1D8","title":"ハーランド vs ガブリエウ、レスリングしたらどっちが勝つ？🤣 #Shorts","type":"Shorts","category":"その他","views":41,"ret":97.92,"subs":0},{"id":"miH90rzINns","title":"10秒で分かる？ この選手、誰？⚽️ #Shorts","type":"Shorts","category":"クイズ","views":36,"ret":92.8,"subs":0},{"id":"rILJH40C6mU","title":"ユナイテッドは“青の波”を食い止められるか？｜マンチェスター・ダービー PREVIEW #Shorts","type":"Shorts","category":"その他","views":27,"ret":32.57,"subs":0},{"id":"aUep1A3mYEY","title":"10秒で分かる？この選手、誰？⚽️ 天才ドリブラーを当てろ！ #Shorts","type":"Shorts","category":"クイズ","views":40,"ret":84.29,"subs":0},{"id":"V4PiziTw8N0","title":"レアルの前線まで届くのか？ベリンガムvsインテル中盤｜CL第1節【PREVIEW】","type":"Shorts","category":"その他","views":18,"ret":45.93,"subs":0},{"id":"aHcH1EhBYMQ","title":"今日で地球が滅びるなら、最後のPK誰に蹴らせる？🤣 #Shorts","type":"Shorts","category":"CHOICE","views":31,"ret":86.46,"subs":0},{"id":"HZRgcS1GVu8","title":"4年の出場停止処分から復活へ…ムドリク、まさかのトッテナム移籍！？【移籍情報】","type":"Shorts","category":"その他","views":11,"ret":45.14,"subs":0},{"id":"EM3k-An6Ug4","title":"田中碧、また蘇った。笑 #Shorts","type":"Shorts","category":"その他","views":40,"ret":55.21,"subs":0},{"id":"d8GTgfeO7Ug","title":"アーセナル、本当に怖いのは逆転した後だった。｜チェルシー戦 2-1【REVIEW】","type":"Shorts","category":"その他","views":10,"ret":85.06,"subs":0},{"id":"ezCP2aDMRPM","title":"リヴァプール主力がマンCへ！？デッドライン直前に衝撃移籍か【移籍情報】","type":"通常動画","category":"その他","views":9,"ret":45.1,"subs":0},{"id":"7umjQ9Lsi_U","title":"この3ヒントで分かる？ この選手、誰？⚽️ #Shorts","type":"Shorts","category":"クイズ","views":24,"ret":94.32,"subs":0},{"id":"t-ixeQEXxvs","title":"“青の波”はさざ波に。それでもシティは沈まなかった。｜マンチェスター・ダービー REVIEW #Shorts","type":"Shorts","category":"その他","views":28,"ret":45.98,"subs":0},{"id":"EASOHpFeuhg","title":"気づいたら、もう消えてる。フェルミン・ロペスの「ココ」を見て！ #Shorts","type":"Shorts","category":"その他","views":30,"ret":19.42,"subs":0},{"id":"S3WcGQvGbdY","title":"左SBなのに、どこにいるんだよ😂｜カラフィオーリのココを見て。 #shorts","type":"Shorts","category":"その他","views":11,"ret":48.96,"subs":0},{"id":"ZqnWH2DWiXA","title":"堂安律、まさかのサウジ移籍へ！？年俸17億円の大型オファーか【移籍情報】","type":"Shorts","category":"その他","views":10,"ret":51.25,"subs":0},{"id":"0c9wz-aB5OU","title":"「えっ、エンソがシティ！？」衝撃移籍、でも調べたらちょっと納得した。 #shorts","type":"Shorts","category":"その他","views":7,"ret":67.23,"subs":0},{"id":"nPaGk63Amjg","title":"エムバペと野人・岡野、どっちが足速い？🤣 #Shorts","type":"Shorts","category":"その他","views":29,"ret":59.08,"subs":0},{"id":"XuqRAjWv8Oo","title":"【徹底分析】アーセナルを救った“一瞬の質”｜決勝点を生んだ距離とタイミング｜アストン・ヴィラ 0-1 アーセナル","type":"通常動画","category":"その他","views":4,"ret":5.92,"subs":0},{"id":"wm03LWfo2Lc","title":"フリアン・アルバレス、最後にアーセナルへ！？ゼロサカがDeadline Dayを予想【移籍情報】","type":"Shorts","category":"その他","views":8,"ret":44.93,"subs":0},{"id":"WQQ1H1U0jgw","title":"260億円の超大型移籍!? バルコラがリヴァプールへ🔥 #Shorts","type":"Shorts","category":"その他","views":11,"ret":54.68,"subs":0},{"id":"7857QihxI-Y","title":"王者アーセナル、最大の敵はエメリ？🔥 アストン・ヴィラvsアーセナル【プレミアプレビュー】","type":"通常動画","category":"その他","views":15,"ret":24.05,"subs":0},{"id":"Lsmx9bQP-cc","title":"シティの不正疑惑、ハーランド引退までに結論出る？笑 #Shorts","type":"Shorts","category":"その他","views":28,"ret":56.43,"subs":0},{"id":"7rtAmdAXMFA","title":"先制したのはアトレティコ。でも試合を支配したのはリバプール｜CL REVIEW #Shorts","type":"Shorts","category":"その他","views":12,"ret":53.82,"subs":0},{"id":"GlbgL0aW0y0","title":"クラブ史上最高額🔥 約140億円の大型補強！その正体は… #Shorts","type":"Shorts","category":"その他","views":7,"ret":62.36,"subs":0},{"id":"alNtSPj0oJA","title":"全グーナー衝撃…アーセナルの人気選手に100億円超のサウジ移籍!? #Shorts","type":"Shorts","category":"その他","views":8,"ret":38.35,"subs":0},{"id":"zauk4nMt-JM","title":"ロドリがバルサ！？これ、絶対面白いでしょ😂｜REIのこれ見た？ #Shorts","type":"Shorts","category":"その他","views":11,"ret":41.63,"subs":0},{"id":"uLoOAI1YLHQ","title":"2026年9月1日","type":"通常動画","category":"その他","views":3,"ret":10.48,"subs":0},{"id":"axn0gub9XnQ","title":"16歳が試合を変えた。マックス・ダウマンがヤバすぎる｜NEXT STAR #01 #shorts","type":"Shorts","category":"その他","views":6,"ret":68.81,"subs":0},{"id":"NiNKd2no91Q","title":"元世界王者がチェルシーへ!? 後釜はまさかの日本代表GK🔥 #Shorts","type":"Shorts","category":"その他","views":10,"ret":47.39,"subs":0},{"id":"EVV5lTeaVXI","title":"佐野海舟、プレミア移籍へ！？€30Mオファーのクラブは一体どこ？【移籍情報】","type":"Shorts","category":"その他","views":9,"ret":28.23,"subs":0},{"id":"sOBSKsjECM8","title":"CL始まるーー！……ってことは、また寝れなくなる😂｜REIのこれ見た？ #Shorts","type":"Shorts","category":"その他","views":7,"ret":41.05,"subs":0},{"id":"UOma_5W4bgw","title":"シメオネは“試合の速度”を止められるか？｜リバプール×アトレティコ【CL PREVIEW】","type":"Shorts","category":"その他","views":13,"ret":32.66,"subs":0},{"id":"J3TShqHmu-k","title":"マンC、エンソ獲得へ!? 中盤の総額がヤバすぎる…🔥 #Shorts","type":"Shorts","category":"その他","views":3,"ret":40.52,"subs":0},{"id":"0_KkLV22ggs","title":"「オレは、ゴールしか見てねぇ。」ハーランドの「ココ」を見て！ #Shorts","type":"Shorts","category":"その他","views":10,"ret":19.29,"subs":0},{"id":"Og6ohGTf7OI","title":"アーセナル勝利！でも注目したのはこの男🔥 #アーセナル #プレミアリーグ #サッカー","type":"Shorts","category":"その他","views":9,"ret":21.07,"subs":0},{"id":"L-Tk6A7cfuE","title":"トッテナム移籍目前だった男をマンCが横取り！？ンディアイ獲得へ急展開【移籍情報】","type":"Shorts","category":"その他","views":12,"ret":17.7,"subs":0},{"id":"gCTy5lkqbs4","title":"エンソ、マンC移籍へ急展開！？Deadline Dayにシティがオファー【移籍情報】","type":"Shorts","category":"その他","views":10,"ret":22.92,"subs":0},{"id":"usHdhaz8_X0","title":"フリアン残留。でも、本当にこれで元通り？｜REIのこれ見た？ #Shorts","type":"Shorts","category":"その他","views":5,"ret":32.44,"subs":0},{"id":"pbYmQo-9rBA","title":"因縁の対決再び🔥 新生チェルシーvs絶好調ブライトン！【プレミアプレビュー】#Shorts","type":"Shorts","category":"その他","views":5,"ret":32.27,"subs":0},{"id":"L1bYvmt01qo","title":"中盤だけでいくら使う!? シティがさらにエンソ獲得へ🔥 #Shorts","type":"Shorts","category":"その他","views":3,"ret":48.93,"subs":0},{"id":"CE17SeQ2_8w","title":"CL注目カードがヤバすぎる！日本人選手も多数参戦🔥 #Shorts","type":"Shorts","category":"その他","views":5,"ret":29.64,"subs":0},{"id":"Jaiz3Is_uY0","title":"7ゴールの矛vs無失点の盾。アーセナル対チェルシー徹底プレビュー！【プレミアリーグ】","type":"通常動画","category":"その他","views":4,"ret":1.57,"subs":0},{"id":"7QVR2i4sczU","title":"7ゴールの矛vs無失点の盾🔥 アーセナル対チェルシー、勝つのはどっち？ #shorts","type":"Shorts","category":"その他","views":5,"ret":11.55,"subs":0},{"id":"tItp5G1Sug8","title":"【アストン・ヴィラvsアーセナル】王者をエメリはどう止める？右・左・セットプレーを徹底分析｜プレミアリーグ第2節","type":"通常動画","category":"その他","views":1,"ret":0.27,"subs":0}];const CATEGORY_FIXES={'7JTuuoghtKw':'CHOICE'};const TYPE_FIXES={'ezCP2aDMRPM':'Shorts','7857QihxI-Y':'Shorts'};const CATS={'Shorts':['クイズ','CHOICE','ゼロからサッカー','PREVIEW／REVIEW','その他','未分類'],'通常動画':['サカトピ','検証企画','PROJECT 0','その他','未分類']};let mode='Shorts',saved={},typeSaved={},LIVE_RANGE=null;try{typeSaved=JSON.parse(localStorage.getItem('zerosaka-type-v221')||'{}')}catch(e){};try{saved=JSON.parse(localStorage.getItem('zerosaka-v15')||'{}')}catch(e){};const $=id=>document.getElementById(id);const num=x=>Number(x||0).toLocaleString('ja-JP');const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));function effectiveType(v){return typeSaved[v.id]||TYPE_FIXES[v.id]||v.type}function effectiveCategory(v){const c=saved[v.id]||CATEGORY_FIXES[v.id]||v.category;if(effectiveType(v)==='Shorts'&&(c==='PREVIEW / REVIEW'||c==='その他'||c==='未分類')){const detected=categoryFor(v.title,'Shorts');if(detected==='PREVIEW'||detected==='REVIEW')return 'PREVIEW／REVIEW';}return (c==='PREVIEW'||c==='REVIEW'||c==='PREVIEW / REVIEW')?'PREVIEW／REVIEW':c;}function list(){return DATA.map(v=>({...v,type:effectiveType(v),category:effectiveCategory(v)})).filter(v=>v.type===mode)}function agg(a){let views=a.reduce((s,v)=>s+v.views,0),subs=a.reduce((s,v)=>s+v.subs,0),known=a.filter(v=>Number.isFinite(v.ret)),w=known.reduce((s,v)=>s+v.views,0);return{n:a.length,views,subs,avg:a.length?views/a.length:0,ret:w?known.reduce((s,v)=>s+v.ret*v.views,0)/w:null,rate:views?subs/ views*1000:0}}function metric(g){return [['本数',num(g.n)+'本'],['再生数',num(g.views)+'回'],['1本平均',num(Math.round(g.avg))+'回'],['平均視聴割合',g.ret===null?'—':g.ret.toFixed(1)+'%'],['登録者獲得',num(g.subs)+'人'],['登録者/千再生',g.rate.toFixed(2)+'人']]}function verdict(g,b,cat){
+ if(cat==='その他')return ['判定対象外','不定期・単発企画。実績のみ確認します',''];
+ if(cat==='未分類')return ['分類待ち','分類後に参考評価を表示します','hold'];
+ if(g.n===0)return ['判定保留','投稿実績なし。開始後に評価します','hold'];
+ if(g.n<3)return ['判定保留','投稿3本未満。評価に必要な実績が不足しています','hold'];
+ if(b.n<10)return ['判定保留','同形式の定期企画の合計が10本未満です','hold'];
+ const view=g.avg/(b.avg||1),ret=g.ret!==null&&b.ret!==null&&b.ret>0?g.ret/b.ret:null,conversion=b.rate>0?g.rate/b.rate:null;
+ const strengths=[];if(view>=1.05)strengths.push('再生数');if(ret!==null&&ret>=1.05)strengths.push('視聴割合');if(conversion!==null&&conversion>=1.20&&g.subs>=3)strengths.push('登録者獲得効率');
+ const weakViews=view<0.65,weakRet=ret!==null&&ret<0.8;
+ let label,reason,kind;
+ if(view>=0.85&&conversion!==null&&conversion>=1.35&&g.subs>=5){label='強化候補（参考）';reason='登録者獲得効率が高く、再生数も比較水準を維持';kind='good'}
+ else if(view>=0.85&&ret!==null&&ret>=1.05){label='維持候補（参考）';reason='再生数と視聴割合が比較水準を満たす';kind='good'}
+ else if(weakViews&&weakRet){label='改善・検証（参考）';reason='再生数・視聴割合とも比較水準より低い。構成や冒頭を検証';kind='review'}
+ else if(strengths.length){label='継続検証（参考）';reason='強み：'+strengths.join('・')+'。弱い指標も確認';kind='hold'}
+ else{label='改善・検証（参考）';reason='明確な強みを確認できず。複数本で改善を検証';kind='hold'}
+ if(g.n<10){reason+='。投稿'+g.n+'本のため暫定評価';}
+ return [label,reason+'（同形式の定期企画平均と比較）',kind];
+}function draw(){let all=list(),g=agg(all),base=agg(all.filter(v=>!['その他','未分類'].includes(v.category)));$('short').classList.toggle('active',mode==='Shorts');$('long').classList.toggle('active',mode==='通常動画');$('stats').innerHTML=[['動画数',num(g.n)+'本'],['総再生数',num(g.views)+'回'],['平均視聴割合',g.ret===null?'—':g.ret.toFixed(1)+'%'],['登録者獲得',num(g.subs)+'人']].map(([a,b])=>'<div class="stat"><span>'+a+'</span><b>'+b+'</b></div>').join('');let max=Math.max(1,...CATS[mode].map(c=>agg(all.filter(v=>v.category===c)).avg));$('series').innerHTML=CATS[mode].map(c=>{let s=agg(all.filter(v=>v.category===c)),[status,why,kind]=verdict(s,base,c);return '<article><h3>'+esc(c)+'</h3><span class="pill '+kind+'">'+status+'</span><div class="metrics">'+metric(s).map(([a,b])=>'<div><small>'+a+'</small><strong>'+b+'</strong></div>').join('')+'</div><div class="bar" aria-label="1本平均再生数の相対比較"><i style="width:'+Math.max(0,Math.min(100,s.avg/max*100))+'%"></i></div><p class="notes">'+esc(why)+'</p></article>'}).join('');let prev=$('filter').value;$('filter').innerHTML=['全て',...CATS[mode]].map(c=>'<option>'+esc(c)+'</option>').join('');$('filter').value=CATS[mode].includes(prev)?prev:'全て';drawVideos()};function drawVideos(){let q=$('search').value.toLowerCase(),f=$('filter').value;let a=list().filter(v=>(f==='全て'||v.category===f)&&v.title.toLowerCase().includes(q));$('count').textContent='表示 '+a.length+'本 / '+list().length+'本（未分類 '+list().filter(v=>v.category==='未分類').length+'本）';$('videos').innerHTML=a.map(v=>'<div class="video"><strong>'+esc(v.title)+'</strong><div class="meta">'+num(v.views)+'回再生 · 平均視聴 '+(v.ret===null?'—':v.ret.toFixed(1)+'%')+' · 登録者 +'+num(v.subs)+'</div><select data-id="'+esc(v.id)+'" aria-label="企画分類">'+CATS[mode].map(c=>'<option '+(c===v.category?'selected':'')+'>'+esc(c)+'</option>').join('')+'</select><select data-type-id="'+esc(v.id)+'" aria-label="動画形式"><option '+(v.type==='通常動画'?'selected':'')+'>通常動画</option><option '+(v.type==='Shorts'?'selected':'')+'>Shorts</option></select></div>').join('')};$('short').onclick=()=>{mode='Shorts';$('search').value='';$('filter').value='全て';draw()};$('long').onclick=()=>{mode='通常動画';$('search').value='';$('filter').value='全て';draw()};$('search').oninput=drawVideos;$('filter').onchange=drawVideos;$('videos').onchange=e=>{let s=e.target;if(s.matches('select[data-type-id]')){typeSaved[s.dataset.typeId]=s.value;try{localStorage.setItem('zerosaka-type-v221',JSON.stringify(typeSaved))}catch(e){}draw();return}if(!s.matches('select[data-id]'))return;saved[s.dataset.id]=s.value;try{localStorage.setItem('zerosaka-v15',JSON.stringify(saved))}catch(e){}draw()};$('export').onclick=()=>{let head=['動画ID','タイトル','形式','企画','再生数','平均視聴割合(%)','登録者獲得数'];let quote=x=>'"'+String(x??'').replace(/"/g,'""')+'"';let lines=[head,...DATA.map(v=>[v.id,v.title,effectiveType(v),effectiveCategory(v),v.views,v.ret??'',v.subs])].map(a=>a.map(quote).join(','));let blob=new Blob(['\ufeff'+lines.join('\r\n')],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='zerosaka-analysis-export.csv';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+;
+function reportText(){
+ const lines=['ゼロサカ分析アプリ v2.4.0｜全分析データ','作成日時：'+new Date().toLocaleString('ja-JP'), 'データ：'+(LIVE_RANGE?'Google取得 '+LIVE_RANGE.start+' ～ '+LIVE_RANGE.end:'保存済みデータ（2026/09/24～10/22）'),'集計対象：'+(LIVE_RANGE?'対象期間に公開され、期間中に再生が確認できた動画（全期間選択時は投稿一覧も照合します）':'保存済み121本'),'注意：再生数・登録者獲得・平均視聴割合は集計期間内の値。公開日が違う動画の比較は慎重に。'];
+ for(const type of ['通常動画','Shorts']){
+  const a=DATA.map(v=>({...v,type:effectiveType(v),category:effectiveCategory(v)})).filter(v=>v.type===type);
+  const g=agg(a),b=agg(a.filter(v=>!['その他','未分類'].includes(v.category)));
+  lines.push('','＝＝＝＝ '+type+' ＝＝＝＝','【全体】','本数 '+g.n+'／総再生 '+g.views+'／1本平均 '+Math.round(g.avg)+'／平均視聴割合 '+(g.ret===null?'不明':g.ret.toFixed(2)+'%')+'／登録者獲得 +'+g.subs);
+  lines.push('【企画別】');
+  for(const cat of CATS[type]){
+   const x=agg(a.filter(v=>v.category===cat)),[judge]=verdict(x,b,cat);
+   lines.push(cat+'：'+x.n+'本／総再生 '+x.views+'／平均 '+Math.round(x.avg)+'／中央値 '+(x.n?median(a.filter(v=>v.category===cat).map(v=>v.views)):'—')+'／平均視聴割合 '+(x.ret===null?'—':x.ret.toFixed(2)+'%')+'／登録者 +'+x.subs+'／判定 '+judge);
+  }
+  lines.push('【動画別】');
+  for(const v of [...a].sort((x,y)=>y.views-x.views)){
+   lines.push('・'+v.title+'｜企画 '+v.category+'｜再生 '+v.views+'｜平均視聴割合 '+(v.ret===null?'—':v.ret.toFixed(2)+'%')+'｜登録者 +'+v.subs+'｜公開日 '+(v.publishedAt||'不明')+'｜ID '+v.id);
+  }
+ }
+ lines.push('','※この全体サマリーにはCTR・インプレッション・平均視聴時間などの詳細指標を含めていません。公開後詳細レポートでは取得可能な追加指標を確認できます。Shortsの「視聴を継続した割合」は公開APIから取得できません。','※一括コピーは表示用データのみ。Google認証情報は含みません。');
+ return lines.join('\n');
+}
+function median(a){const x=[...a].sort((a,b)=>a-b);return x.length?(x.length%2?x[(x.length-1)/2]:(x[x.length/2-1]+x[x.length/2])/2).toLocaleString('ja-JP'):'—'}
+$('copyAll').onclick=async()=>{
+ const content=reportText();
+ try{
+  if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(content)}
+  else {const t=document.createElement('textarea');t.value=content;t.style.position='fixed';t.style.opacity='0';document.body.append(t);t.select();if(!document.execCommand('copy'))throw Error('コピー不可');t.remove()}
+  $('copyStatus').textContent='コピー完了！ センセイのチャットに貼り付けてください。';
+ }catch(e){$('copyStatus').textContent='自動コピーできませんでした。下の欄を長押ししてコピーしてください。';let t=$('copyFallback');if(!t){t=document.createElement('textarea');t.id='copyFallback';t.style.width='100%';t.style.height='160px';$('copyStatus').after(t)}t.value=content;t.focus();t.select()}
+};
+draw();</script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+const CLIENT_ID='776233725459-mg7p29uhbiekhvqt0l5l66s5uj72tihc.apps.googleusercontent.com';
+const BASE_DATA=DATA.map(v=>({...v}));
+let accessToken=null;
+let tokenClient=null;
+let tokenExpiry=0;
+const statusLive=t=>document.getElementById('liveStatus').textContent=t;
+const iso=d=>d.toISOString().slice(0,10);
+async function apiGet(url){const r=await fetch(url,{headers:{Authorization:'Bearer '+accessToken}});const j=await r.json();if(!r.ok)throw Error(j.error?.message||'HTTP '+r.status);return j;}
+function categoryFor(title,type){const t=title.toLowerCase();if(type==='通常動画'){if(/サカトピ/.test(t))return 'サカトピ';if(/検証|ck得点|コーナーキック.*優勝/.test(t))return '検証企画';if(/project 0|project0|プロジェクト0/.test(t))return 'PROJECT 0';return 'その他'}if(/ゼロからサッカー/.test(t))return 'ゼロからサッカー';if(/review|レビュー|preview|プレビュー/.test(t))return 'PREVIEW／REVIEW';if(/choice|選ぶ？|選ぶなら|任せるなら|戻すなら|どっち|誰に蹴らせる|一番躍進するのはどこ/.test(t))return 'CHOICE';if(/クイズ|この選手.*誰|誰？|分かる？|わかる？|共通点|クラブ遍歴|1つだけ|一番高かった|一番遠ざか|アシスト王になったことがない/.test(t))return 'クイズ';return 'その他'}
+function seconds(duration){const m=String(duration||'').match(/^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/);return m?(Number(m[1]||0)*3600+Number(m[2]||0)*60+Number(m[3]||0)):null}
+async function updateLive(){
+ if(!accessToken){statusLive('先にGoogleで接続してください。');return}
+ const allPeriod=$('period').value==='all',days=Number($('period').value),end=new Date();end.setUTCDate(end.getUTCDate()-2);
+ const start=new Date(end);if(allPeriod)start.setUTCFullYear(2005,0,1);else start.setUTCDate(start.getUTCDate()-(days-1));
+ const startStr=iso(start),endStr=iso(end),range=startStr+' ～ '+endStr;
+ statusLive('動画ごとのデータを取得しています…');
+ const q=new URLSearchParams({ids:'channel==MINE',startDate:startStr,endDate:endStr,metrics:'views,averageViewPercentage,subscribersGained',dimensions:'video',sort:'-views',maxResults:'200'});
+ let rows=[];let offset=1;
+ do{
+  q.set('startIndex',String(offset));
+  const j=await apiGet('https://youtubeanalytics.googleapis.com/v2/reports?'+q);
+  const batch=j.rows||[];rows.push(...batch);
+  statusLive('動画成績を取得中：'+rows.length+'本…');
+  if(batch.length<200)break;
+  offset+=batch.length;
+  if(offset>10000)throw Error('取得件数が上限を超えました');
+ }while(true);
+ const old=new Map(BASE_DATA.map(v=>[v.id,v])),ids=rows.map(r=>r[0]),details=new Map();
+ for(let i=0;i<ids.length;i+=50){
+  const v=await apiGet('https://www.googleapis.com/youtube/v3/videos?'+new URLSearchParams({part:'snippet,contentDetails',id:ids.slice(i,i+50).join(','),maxResults:'50'}));
+  (v.items||[]).forEach(x=>details.set(x.id,x));
+ }
+ const all=rows.map(r=>{
+  const id=String(r[0]),d=details.get(id),prev=old.get(id),title=d?.snippet?.title||prev?.title||'動画 '+id,dur=seconds(d?.contentDetails?.duration);
+  const type=typeSaved[id]||TYPE_FIXES[id]||(/#shorts|#short\b/i.test(title)?'Shorts':prev?.type||(dur!==null&&dur<=180?'Shorts':'通常動画'));
+  return {id,title,type,category:CATEGORY_FIXES[id]||prev?.category||categoryFor(title,type),views:Number(r[1]||0),ret:r[2]==null?null:Number(r[2]),subs:Number(r[3]||0),publishedAt:d?.snippet?.publishedAt?.slice(0,10)||null};
+ });
+ // 集計期間中に公開された動画に統一する。過去公開の動画の期間中再生は集計対象外。
+ DATA=allPeriod?all.filter(v=>v.publishedAt):all.filter(v=>v.publishedAt&&v.publishedAt>=startStr&&v.publishedAt<=endStr);
+  if(typeof resetEarly==='function')resetEarly();
+ LIVE_RANGE={start:startStr,end:endStr};
+ if(allPeriod){
+  statusLive('過去の投稿一覧を照合しています…');
+  await verifyEl('verifyHistory').onclick();
+  if(!verifyEl('verifyHistoryStatus').textContent.includes('取得完了'))throw Error('全動画一覧を取得できませんでした：'+verifyEl('verifyHistoryStatus').textContent);
+  const known=new Set(DATA.map(v=>v.id));
+  for(const v of VERIFY_HISTORY.values())if(!known.has(v.id))DATA.push({...v,views:0,ret:null,subs:0});
+ }
+ $('liveInfo').textContent=allPeriod?'全期間 ／ 投稿一覧 '+DATA.length+'本（再生数0の動画を含む。成績は取得可能な全期間の集計）':'集計期間 '+range+' ／ 期間内公開 '+DATA.length+'本（期間中に再生のあった動画。再生0本は取得対象外）';
+ statusLive('自動取得成功！ '+(allPeriod?'全期間の投稿 '+DATA.length+'本を表示しています。':'期間内に公開した動画の成績を表示しています。'));
+ try{sessionStorage.setItem('zerosaka-live-cache',JSON.stringify({data:DATA,info:$('liveInfo').textContent,range:LIVE_RANGE,at:Date.now()}))}catch(e){}
+ draw();
+}
+
+try{const cache=JSON.parse(sessionStorage.getItem('zerosaka-live-cache')||'null');if(cache&&Array.isArray(cache.data)&&cache.data.length){DATA=cache.data;LIVE_RANGE=cache.range||null;document.getElementById('liveInfo').textContent=cache.info+' ／ 前回取得分';statusLive('前回取得したデータを表示中。最新データは「Googleで接続・更新」から取得できます。');draw()}}catch(e){}
+document.getElementById('connect').onclick=()=>{if(!window.google?.accounts?.oauth2){statusLive('Googleログインを読み込み中。数秒後に再度押してください。');return}const client=google.accounts.oauth2.initTokenClient({client_id:CLIENT_ID,scope:'https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/yt-analytics.readonly',callback:async resp=>{if(resp.error){statusLive('認証エラー: '+resp.error);return}accessToken=resp.access_token;tokenExpiry=Date.now()+Number(resp.expires_in||3600)*1000;try{await updateLive()}catch(e){statusLive('取得できませんでした: '+e.message)}},error_callback:e=>statusLive('ログインエラー: '+(e.type||'不明'))});client.requestAccessToken({prompt:'select_account'})};
+document.getElementById('period').onchange=async()=>{if(accessToken){try{await updateLive()}catch(e){statusLive('取得エラー: '+e.message)}}};
+document.getElementById('restore').onclick=()=>{DATA=BASE_DATA.map(v=>({...v}));LIVE_RANGE=null;statusLive('保存済み121本のデータに戻しました。');document.getElementById('liveInfo').textContent='保存済みの集計期間：2026/09/24〜10/22。';try{sessionStorage.removeItem('zerosaka-live-cache')}catch(e){}draw()};
+</script><script>
+// v2.3.3: A single-video audit, independent of the experimental comparison ranking.
+const VERIFY_HISTORY=new Map();
+const verifyEl=id=>document.getElementById(id);
+function verifySetup(){
+ const sel=verifyEl('verifyVideo'),old=sel.value;
+ const list=[...new Map([...DATA,...VERIFY_HISTORY.values()].filter(v=>v.publishedAt&&/^\d{4}-\d{2}-\d{2}$/.test(v.publishedAt)).map(v=>[v.id,v])).values()].sort((a,b)=>a.publishedAt.localeCompare(b.publishedAt));
+ sel.innerHTML=list.map(v=>'<option value="'+esc(v.id)+'">'+esc(v.publishedAt+' | '+v.title.slice(0,58))+'</option>').join('');
+ if(list.some(v=>v.id===old))sel.value=old;
+}
+function verifyAdd(s,delta){const d=new Date(s+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+delta);return d.toISOString().slice(0,10)}
+verifyEl('verifyFetch').onclick=async()=>{
+ const status=verifyEl('verifyStatus'),out=verifyEl('verifyResult'),btn=verifyEl('verifyFetch');
+ if(!accessToken){status.textContent='先にGoogleで接続してください。';return}
+ const v=VERIFY_HISTORY.get(verifyEl('verifyVideo').value)||DATA.find(x=>x.id===verifyEl('verifyVideo').value),days=Number(verifyEl('verifyDays').value);
+ if(!v){status.textContent='動画を選択してください。';return}
+ const end=verifyAdd(v.publishedAt,days-1),safe=verifyAdd(new Date().toISOString().slice(0,10),-3);
+ if(end>safe){status.textContent='この動画は公開後'+days+'日分のデータがまだ確定していない可能性があります（期間末：'+end+'）。';out.innerHTML='';return}
+ btn.disabled=true;out.innerHTML='';status.textContent='日別データを照会中…';
+ try{
+ const q=new URLSearchParams({ids:'channel==MINE',startDate:v.publishedAt,endDate:end,metrics:'views,averageViewPercentage,subscribersGained',dimensions:'day',filters:'video=='+v.id,sort:'day',maxResults:'200'});
+ const result=await apiGet('https://youtubeanalytics.googleapis.com/v2/reports?'+q);
+ const rows=(result.rows||[]).map(r=>({day:String(r[0]),views:Number(r[1]||0),ret:r[2]==null?null:Number(r[2]),subs:Number(r[3]||0)}));
+ const views=rows.reduce((a,r)=>a+r.views,0),subs=rows.reduce((a,r)=>a+r.subs,0),weight=rows.filter(r=>r.ret!==null).reduce((a,r)=>a+r.views,0);
+ const ret=weight?rows.filter(r=>r.ret!==null).reduce((a,r)=>a+r.views*r.ret,0)/weight:null;
+ status.textContent='API応答あり。Studioとの一致は未確認。日付行 '+rows.length+'件／対象 '+days+'暦日。';
+ out.innerHTML='<div class="notice"><b>'+esc(v.title)+'</b><p>公開日（UTC基準）：'+esc(v.publishedAt)+'／照会期間：'+esc(v.publishedAt)+' ～ '+end+'</p><p><b>再生 '+num(views)+'回／登録者 +'+num(subs)+'人／平均視聴割合 '+(ret===null?'算出不可':ret.toFixed(2)+'%')+'</b></p><p>※データのない日を0再生と断定できません。日別行が'+days+'行未満でも成功扱いにはしません。</p></div><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse"><thead><tr><th>日付</th><th>再生</th><th>登録者</th></tr></thead><tbody>'+rows.map(r=>'<tr><td>'+esc(r.day)+'</td><td style="text-align:right">'+num(r.views)+'</td><td style="text-align:right">'+num(r.subs)+'</td></tr>').join('')+'</tbody></table></div>';
+ }catch(e){status.textContent='取得失敗：'+e.message;out.innerHTML='';}finally{btn.disabled=false}
+};
+verifySetup();
+const verifyConnect=verifyEl('connect');
+verifyEl('verifyVideo').addEventListener('focus',verifySetup);
+verifyEl('verifyHistory').onclick=async()=>{
+ const btn=verifyEl('verifyHistory'),status=verifyEl('verifyHistoryStatus');
+ if(!accessToken){status.textContent='先にGoogleで接続してください。';return}
+ btn.disabled=true;status.textContent='YouTubeの投稿一覧を取得しています…';
+ try{
+  const ch=await apiGet('https://www.googleapis.com/youtube/v3/channels?'+new URLSearchParams({part:'contentDetails',mine:'true'}));
+  const playlist=ch.items?.[0]?.contentDetails?.relatedPlaylists?.uploads;
+  if(!playlist)throw Error('アップロード一覧を取得できませんでした');
+  const ids=[],seen=new Set();let page='',pages=0,complete=false;
+  do{
+   const q=new URLSearchParams({part:'contentDetails',playlistId:playlist,maxResults:'50'});
+   if(page)q.set('pageToken',page);
+   const result=await apiGet('https://www.googleapis.com/youtube/v3/playlistItems?'+q);
+   for(const item of result.items||[]){const id=item.contentDetails?.videoId;if(id&&!seen.has(id)){ids.push(id);seen.add(id)}}
+   page=result.nextPageToken||'';pages++;
+   status.textContent='投稿一覧を確認中：'+ids.length+'本…';
+   if(!page)complete=true;
+  }while(page&&pages<100);
+  let loaded=0;
+  for(let i=0;i<ids.length;i+=50){
+   const q=new URLSearchParams({part:'snippet,contentDetails',id:ids.slice(i,i+50).join(','),maxResults:'50'});
+   const result=await apiGet('https://www.googleapis.com/youtube/v3/videos?'+q);
+   for(const item of result.items||[]){
+    const publishedAt=item.snippet?.publishedAt?.slice(0,10);
+    if(!publishedAt)continue;
+    const title=item.snippet?.title||'動画 '+item.id,dur=seconds(item.contentDetails?.duration);
+    const type=typeSaved[item.id]||TYPE_FIXES[item.id]||(/#shorts|#short\b/i.test(title)?'Shorts':(dur!==null&&dur<=180?'Shorts':'通常動画'));
+    VERIFY_HISTORY.set(item.id,{id:item.id,title,publishedAt,type,category:saved[item.id]||CATEGORY_FIXES[item.id]||categoryFor(title,type)});
+    loaded++;
+   }
+   status.textContent='動画の公開日を取得中：'+Math.min(i+50,ids.length)+'/'+ids.length+'本…';
+  }
+  verifySetup();
+  status.textContent=complete?'投稿一覧の取得完了：'+loaded+'本。古い動画を選んで検証できます。':'一部取得：'+loaded+'本。100ページ上限のため全動画ではありません。';
+ }catch(e){status.textContent='取得失敗：'+e.message+'。Google接続を確認して再試行してください。'}
+ finally{btn.disabled=false}
+};
+</script><script>
+// v2.3: Separate, on-demand per-video daily Analytics queries; never change the v2.2.2 summary data.
+let extraRows=new Map(),extraErrors=new Map(),videoDurations=new Map(),videoPreciseDurations=new Map(),videoDurationPrecisionNotes=new Map();
+let earlyRows=new Map(),earlyBusy=false,earlyFetched=new Set(),earlyErrors=new Map(),earlyFetchedAt=new Map();
+const earlyEl=id=>document.getElementById(id);
+function earlyCandidates(){const merged=new Map();for(const v of [...DATA,...VERIFY_HISTORY.values()])if(v.publishedAt&&/^\d{4}-\d{2}-\d{2}$/.test(v.publishedAt))merged.set(v.id,{...v,type:effectiveType(v),category:effectiveCategory(v)});return [...merged.values()];}
+function earlyCategories(){const a=earlyCandidates().filter(v=>v.type===mode);return ['全企画',...CATS[mode].filter(c=>a.some(v=>v.category===c))];}
+const engagedRows=new Map(),engagedErrors=new Map();
+function resetEarly(){engagedRows.clear();engagedErrors.clear();extraRows.clear();extraErrors.clear();videoDurations.clear();videoPreciseDurations.clear();videoDurationPrecisionNotes.clear();earlyRows.clear();earlyFetched.clear();earlyErrors.clear();earlyFetchedAt.clear();earlyEl('earlyResults').innerHTML='';earlyEl('earlyStatus').textContent='動画データが変わりました。比較データを取得してください。';earlySetup();}
+function earlySetup(){const sel=earlyEl('earlyCategory'),old=sel.value,cats=earlyCategories();sel.innerHTML=cats.map(c=>'<option>'+esc(c)+'</option>').join('');sel.value=cats.includes(old)?old:'全企画';}
+function earlyAdd(s,n){const d=new Date(s+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10);}
+function earlyLatest(){return earlyAdd(new Date().toISOString().slice(0,10),-3);}
+function earlySelection(){const c=earlyEl('earlyCategory').value;return earlyCandidates().filter(v=>v.type===mode&&(c==='全企画'||v.category===c)).sort((a,b)=>b.publishedAt.localeCompare(a.publishedAt));}
+async function earlyLoad(){
+ if(earlyBusy)return {state:'busy'};
+ if(!accessToken){earlyEl('earlyStatus').textContent='先にGoogleで接続してください。';return {state:'error',message:'Google未接続'};}
+ const selected=earlySelection(),n=Number(earlyEl('earlyDays').value),latest=earlyLatest();
+ const ready=selected.filter(v=>earlyAdd(v.publishedAt,n-1)<=latest);
+ if(!ready.length){earlyEl('earlyStatus').textContent='公開後'+n+'日を経過した動画がありません。「過去の全動画を読み込む」を押すと候補が増えます。';earlyRender();return {state:'empty',message:'対象期間に到達した動画がありません'};}
+ earlyBusy=true;earlyEl('earlyFetch').disabled=true;const errors=[];let done=0;window.dispatchEvent(new CustomEvent('zs-early-progress',{detail:{done:0,total:ready.length}}));
+ try{
+  for(const v of ready){
+   done++;earlyEl('earlyStatus').textContent='取得中 '+done+'/'+ready.length+'本（企画：'+earlyEl('earlyCategory').value+'）';window.dispatchEvent(new CustomEvent('zs-early-progress',{detail:{done,total:ready.length}}));
+   if(earlyFetched.has(v.id))continue;
+   const end=earlyAdd(v.publishedAt,29),to=end<latest?end:latest;
+   const q=new URLSearchParams({ids:'channel==MINE',startDate:v.publishedAt,endDate:to,metrics:'views,averageViewPercentage,subscribersGained',dimensions:'day',filters:'video=='+v.id,sort:'day',maxResults:'200'});
+   try{const result=await apiGet('https://youtubeanalytics.googleapis.com/v2/reports?'+q);earlyRows.set(v.id,(result.rows||[]).map(r=>({day:String(r[0]),views:Number(r[1]||0),ret:r[2]==null?null:Number(r[2]),subs:Number(r[3]||0)})));earlyFetched.add(v.id);earlyErrors.delete(v.id);earlyFetchedAt.set(v.id,new Date().toISOString());}catch(e){earlyErrors.set(v.id,String(e.message||e));errors.push(v.title.slice(0,15)+'：'+e.message);}
+  }
+  // Additional metrics are isolated from the existing 7/14/30-day pipeline.
+  // Failure of any optional endpoint never overwrites previously verified daily rows.
+  const needs=ready.filter(v=>!extraRows.has(v.id));
+  if(needs.length){
+   for(let i=0;i<needs.length;i+=50){
+    const batch=needs.slice(i,i+50);
+    try{
+     const j=await apiGet('https://www.googleapis.com/youtube/v3/videos?'+new URLSearchParams({part:'contentDetails',id:batch.map(v=>v.id).join(',')}));
+     for(const x of j.items||[])videoDurations.set(x.id,seconds(x.contentDetails?.duration));
+     // Owner-only metadata, requested separately so a permission failure never blocks integer duration.
+     try{
+      const precise=await apiGet('https://www.googleapis.com/youtube/v3/videos?'+new URLSearchParams({part:'fileDetails',id:batch.map(v=>v.id).join(',')}));
+      for(const x of precise.items||[]){
+       const ms=Number(x.fileDetails?.durationMs);
+       if(Number.isFinite(ms)&&ms>0){videoPreciseDurations.set(x.id,ms/1000);videoDurationPrecisionNotes.set(x.id,'fileDetails.durationMs（所有者向け、ミリ秒単位）');}
+      }
+     }catch(e){for(const v of batch)videoDurationPrecisionNotes.set(v.id,'精密動画尺を取得できず：'+String(e.message||e));}
+
+    }catch(e){for(const v of batch)extraErrors.set(v.id,'動画尺：'+String(e.message||e));}
+   }
+   for(const v of needs){
+    const to=earlyAdd(v.publishedAt,29)<latest?earlyAdd(v.publishedAt,29):latest;
+    const q=new URLSearchParams({ids:'channel==MINE',startDate:v.publishedAt,endDate:to,metrics:'views,averageViewDuration,likes,comments,shares',dimensions:'day',filters:'video=='+v.id,sort:'day',maxResults:'200'});
+    try{
+     const j=await apiGet('https://youtubeanalytics.googleapis.com/v2/reports?'+q);
+     extraRows.set(v.id,(j.rows||[]).map(r=>({day:String(r[0]),views:Number(r[1]||0),avgDuration:r[2]==null?null:Number(r[2]),likes:Number(r[3]||0),comments:Number(r[4]||0),shares:Number(r[5]||0)})));
+     extraErrors.delete(v.id);
+    }catch(e){extraErrors.set(v.id,'追加指標：'+String(e.message||e));}
+   }
+  }
+  // Engaged views are queried separately so unsupported responses never break other metrics.
+  for(const v of ready){
+   if(engagedRows.has(v.id))continue;
+   const to=earlyAdd(v.publishedAt,29)<latest?earlyAdd(v.publishedAt,29):latest;
+   const q=new URLSearchParams({ids:'channel==MINE',startDate:v.publishedAt,endDate:to,metrics:'engagedViews',dimensions:'day',filters:'video=='+v.id,sort:'day',maxResults:'200'});
+   try{const j=await apiGet('https://youtubeanalytics.googleapis.com/v2/reports?'+q);engagedRows.set(v.id,(j.rows||[]).map(r=>({day:String(r[0]),count:Number(r[1]||0)})));engagedErrors.delete(v.id);}
+   catch(e){engagedErrors.set(v.id,String(e.message||e));}
+  }
+  earlyRender();earlyEl('earlyStatus').textContent='照会終了：'+(ready.length-errors.length)+'/'+ready.length+'本取得'+(errors.length?'。失敗：'+errors.slice(0,2).join('／'):'')+'。表示は日付の欠損がある場合、暫定値です。';return {state:errors.length?'partial':'done',total:ready.length,success:ready.length-errors.length,errors};
+ }finally{earlyBusy=false;earlyEl('earlyFetch').disabled=false;}
+}
+// v2.3.18: Data availability is distinct from completeness. Missing daily rows are NOT assumed zero.
+function earlyQuality(v,n,latest=earlyLatest()){
+ const start=v.publishedAt,end=earlyAdd(start,n-1);
+ if(end>latest)return {state:'期間未到達・反映待ち',start,end,rows:[],missing:[],confidence:'判定対象外'};
+ if(!earlyFetched.has(v.id))return {state:earlyErrors.has(v.id)?'取得失敗':'未取得',start,end,rows:[],missing:[],confidence:'未確認'};
+ const rows=(earlyRows.get(v.id)||[]).filter(r=>r.day>=start&&r.day<=end);
+ const found=new Set(rows.map(r=>r.day)),missing=[];
+ for(let i=0;i<n;i++){const d=earlyAdd(start,i);if(!found.has(d))missing.push(d);}
+ return {state:missing.length?'一部欠損・要確認':'取得済み（日付境界は暫定）',start,end,rows,missing,confidence:missing.length?'要確認':'暫定'};
+}
+function earlyBuildRows(){
+ const n=Number(earlyEl('earlyDays').value),latest=earlyLatest();
+ return earlySelection().map(v=>{const end=earlyAdd(v.publishedAt,n-1),eligible=end<=latest,has=earlyFetched.has(v.id);
+ const rows=has?(earlyRows.get(v.id)||[]).filter(r=>r.day>=v.publishedAt&&r.day<=end):[];
+ const views=rows.reduce((a,r)=>a+r.views,0),subs=rows.reduce((a,r)=>a+r.subs,0),valid=rows.filter(r=>r.ret!==null),w=valid.reduce((a,r)=>a+r.views,0),ret=w?valid.reduce((a,r)=>a+r.views*r.ret,0)/w:null;
+ const state=!eligible?'期間未到達・反映待ち':!has?'未取得':rows.length<n?'日別行少（欠損かゼロ日か未確認）':'日別行あり（暫定）';
+ return {...v,days:n,views:has?views:null,subs:has?subs:null,ret:has?ret:null,rowCount:rows.length,state,eligible,has};
+ });
+}
+function earlyRender(){
+ const n=Number(earlyEl('earlyDays').value),metric=earlyEl('earlyMetric').value,latest=earlyLatest(),selected=earlySelection();
+ const good=[],pending=[],missing=[];
+ for(const v of selected){const end=earlyAdd(v.publishedAt,n-1);if(end>latest){pending.push(v);continue;}if(!earlyFetched.has(v.id)){missing.push(v);continue;}
+  const rows=(earlyRows.get(v.id)||[]).filter(r=>r.day>=v.publishedAt&&r.day<=end);
+  const views=rows.reduce((x,r)=>x+r.views,0),subs=rows.reduce((x,r)=>x+r.subs,0),w=rows.filter(r=>r.ret!==null).reduce((x,r)=>x+r.views,0),ret=w?rows.filter(r=>r.ret!==null).reduce((x,r)=>x+r.views*r.ret,0)/w:null;
+  good.push({...v,views,subs,ret,rowCount:rows.length,partial:rows.length<n});
+ }
+ good.sort((a,b)=>metric==='ret'?(b.ret??-Infinity)-(a.ret??-Infinity):b[metric]-a[metric]);
+ const fmt=v=>metric==='views'?num(v.views)+'回':metric==='subs'?(v.subs>=0?'+':'')+num(v.subs)+'人':v.ret===null?'—':v.ret.toFixed(1)+'%';
+ let html='<p class="muted">候補 '+selected.length+'本 ／ 取得 '+good.length+'本 ／ 未取得 '+missing.length+'本 ／ 公開後'+n+'日未満・反映待ち '+pending.length+'本</p>';
+ html+='<div class="notice">※公開日UTCとAnalytics集計日の時差に注意。日別行のない日はゼロ再生か欠損かをAPIだけでは区別できません。行数不足は「要確認」と表示します。数値は公開後'+n+'暦日の暫定比較です。</div>';
+ if(false&&good.length){const max=Math.max(1,...good.map(v=>metric==='ret'?v.ret||0:Math.max(0,v[metric])));html+='<div class="series">'+good.map((v,i)=>'<article><div class="muted">'+(i+1)+'位 · '+esc(v.publishedAt)+' · '+esc(v.category)+'</div><h3 style="font-size:13px">'+esc(v.title)+'</h3><strong style="font-size:21px">'+fmt(v)+'</strong> '+(v.partial?'<span class="pill hold">要確認 '+v.rowCount+'/'+n+'日</span>':'<span class="pill good">'+n+'日分の行あり</span>')+'<div class="bar"><i style="width:'+Math.max(0,Math.min(100,(metric==='ret'?(v.ret||0):Math.max(0,v[metric]))/max*100))+'%"></i></div><p class="notes">再生 '+num(v.views)+'回 ／ 登録 '+(v.subs>=0?'+':'')+num(v.subs)+'人 ／ 平均視聴 '+(v.ret===null?'—':v.ret.toFixed(1)+'%')+'</p></article>').join('')+'</div>';}
+ else html+='<p class="notice">取得したデータは「比較データをCSV保存」から出力できます。画面上の長いランキングは省略しました。</p>';
+ if(missing.length)html+='<p class="muted">未取得：'+missing.slice(0,5).map(v=>esc(v.title.slice(0,18))).join('、')+(missing.length>5?' ほか':'')+'</p>';
+ earlyEl('earlyResults').innerHTML=html;
+}
+earlyEl('earlyExport').onclick=()=>{
+ const rows=earlyBuildRows();
+ if(!rows.length){earlyEl('earlyStatus').textContent='対象動画がありません。通常動画の場合は上部の「通常動画」を選び、「過去の全動画を読み込む」を押してください。';return;}
+ const header=['動画ID','タイトル','形式','企画','公開日(UTC)','比較日数','再生数','登録者獲得','平均視聴割合(%)','日別データ行数','取得状態'];
+ const quote=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+ const lines=[header,...rows.map(v=>[v.id,v.title,v.type,v.category,v.publishedAt,v.days,v.views??'',v.subs??'',v.ret===null?'':v.ret.toFixed(3),v.rowCount,v.state])].map(a=>a.map(quote).join(','));
+ const blob=new Blob(['\ufeff'+lines.join('\r\n')],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download='zerosaka-published-'+earlyEl('earlyDays').value+'days-'+(mode==='通常動画'?'long':'shorts')+'-'+(earlyEl('earlyCategory').value==='全企画'?'all':earlyEl('earlyCategory').value)+'.csv';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ earlyEl('earlyStatus').textContent=rows.length+'本のCSVを保存しました。未取得や要確認も区別して出力しています。';
+};
+async function earlyExportAll(){
+ if(earlyBusy)return;
+ if(!accessToken){earlyEl('earlyStatus').textContent='先にGoogleで接続してください。';return;}
+ const all=earlyCandidates().sort((a,b)=>b.publishedAt.localeCompare(a.publishedAt));
+ if(!all.length){earlyEl('earlyStatus').textContent='動画がありません。「過去の全動画を読み込む」を先に押してください。';return;}
+ const latest=earlyLatest(),eligible=all.filter(v=>earlyAdd(v.publishedAt,6)<=latest);
+ earlyBusy=true;earlyEl('earlyExportAll').disabled=true;earlyEl('earlyFetch').disabled=true;
+ const failed=new Set();let done=0;
+ try{
+  for(const v of eligible){
+   done++;earlyEl('earlyStatus').textContent='一括取得中 '+done+'/'+eligible.length+'本（Shorts・通常動画）';
+   const maxEnd=earlyAdd(v.publishedAt,29),to=maxEnd<latest?maxEnd:latest;
+   const existing=earlyRows.get(v.id)||[];
+   const existingLast=existing.length?existing[existing.length-1].day:'';
+   // Previously fetched rows may cover fewer than 30 days; re-query when needed.
+   if(earlyFetched.has(v.id)&&existingLast>=to)continue;
+   const q=new URLSearchParams({ids:'channel==MINE',startDate:v.publishedAt,endDate:to,metrics:'views,averageViewPercentage,subscribersGained',dimensions:'day',filters:'video=='+v.id,sort:'day',maxResults:'200'});
+   try{
+    let result, lastError;
+    for(let attempt=0;attempt<3;attempt++){
+      try{result=await apiGet('https://youtubeanalytics.googleapis.com/v2/reports?'+q);lastError=null;break;}
+      catch(e){lastError=e;if(attempt<2)await new Promise(resolve=>setTimeout(resolve,700*(attempt+1)));}
+    }
+    if(lastError)throw lastError;
+    earlyRows.set(v.id,(result.rows||[]).map(r=>({day:String(r[0]),views:Number(r[1]||0),ret:r[2]==null?null:Number(r[2]),subs:Number(r[3]||0)})));
+    earlyFetched.add(v.id);
+   }catch(e){failed.add(v.id);}
+
+  }
+  const head=['動画ID','タイトル','形式','企画','公開日(UTC)'];
+  for(const n of [7,14,30])head.push(n+'日再生数',n+'日登録者獲得',n+'日平均視聴割合(%)',n+'日日別行数',n+'日取得状態');
+  const records=all.map(v=>{
+   const cells=[v.id,v.title,v.type,v.category,v.publishedAt];
+   for(const n of [7,14,30]){
+    const end=earlyAdd(v.publishedAt,n-1),eligiblePeriod=end<=latest,has=earlyFetched.has(v.id)&&!failed.has(v.id);
+    const data=has?(earlyRows.get(v.id)||[]).filter(r=>r.day>=v.publishedAt&&r.day<=end):[];
+    const completeRange=eligiblePeriod;
+    if(!completeRange||!has){cells.push('','','',data.length,!completeRange?'期間未到達・反映待ち':failed.has(v.id)?'取得失敗':'未取得');continue;}
+    const views=data.reduce((x,r)=>x+r.views,0),subs=data.reduce((x,r)=>x+r.subs,0),valid=data.filter(r=>r.ret!==null),weight=valid.reduce((x,r)=>x+r.views,0),ret=weight?valid.reduce((x,r)=>x+r.views*r.ret,0)/weight:null;
+    cells.push(views,subs,ret===null?'':ret.toFixed(3),data.length,data.length<n?'日別行少（欠損かゼロ日か未確認）':'日別行あり（暫定）');
+   }
+   return cells;
+  });
+  const quote=x=>'"'+String(x??'').replace(/"/g,'""')+'"';
+  const lines=[head,...records].map(a=>a.map(quote).join(','));
+  const blob=new Blob(['\ufeff'+lines.join('\r\n')],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='zerosaka-all-videos-7-14-30days.csv';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  earlyEl('earlyStatus').textContent='一括CSV保存：'+all.length+'本（Shorts・通常動画）。通信エラー '+failed.size+'本。日別行が少ない場合はゼロ実績日の省略か欠損か未確認です。'+(failed.size?' エラー動画ID：'+[...failed].slice(0,5).join('、'):'');
+ }finally{earlyBusy=false;earlyEl('earlyExportAll').disabled=false;earlyEl('earlyFetch').disabled=false;}
+}
+earlyEl('earlyExportAll').onclick=()=>earlyExportAll().catch(e=>{earlyEl('earlyStatus').textContent='一括出力エラー：'+e.message;});
+earlyEl('earlyFetch').onclick=()=>earlyLoad().catch(e=>{earlyEl('earlyStatus').textContent='取得エラー：'+e.message;});
+earlyEl('earlyDays').onchange=()=>{earlyRender();earlyEl('earlyStatus').textContent='日数を変更しました。未取得の動画があれば「比較データを取得」を押してください。';};
+earlyEl('earlyMetric').onchange=earlyRender;
+earlyEl('earlyCategory').onchange=()=>{earlyRender();earlyEl('earlyStatus').textContent='企画を変更しました。「比較データを取得」を押してください。';};
+const prevShort=earlyEl('short').onclick,prevLong=earlyEl('long').onclick;
+earlyEl('short').onclick=()=>{prevShort();earlySetup();earlyRender();};earlyEl('long').onclick=()=>{prevLong();earlySetup();earlyRender();};
+const prevHistory=earlyEl('verifyHistory').onclick;
+earlyEl('verifyHistory').onclick=async()=>{await prevHistory();earlySetup();earlyRender();};
+earlySetup();
+</script><script>
+// v2.3.15: per-category detail export reusing verified daily rows.
+(function(){
+ const byId=id=>document.getElementById(id);
+ const status=byId('categoryDetailStatus');
+ const quote=x=>'"'+String(x??'').replace(/"/g,'""')+'"';
+ const label=(v)=>v===null||v===undefined?'未取得':String(v);
+ function build(){
+  const cat=byId('earlyCategory').value;
+  const videos=earlyCandidates().filter(v=>v.type===mode&&(cat==='全企画'||v.category===cat)).sort((a,b)=>b.publishedAt.localeCompare(a.publishedAt));
+  const latest=earlyLatest();
+  const head=['動画ID','タイトル','形式','企画','公開日(UTC)'];
+  for(const n of [7,14,30])head.push(n+'日再生数',n+'日登録者獲得',n+'日平均視聴割合(%)',n+'日日別行数',n+'日取得状態');
+  const records=videos.map(v=>{
+   const cells=[v.id,v.title,v.type,v.category,v.publishedAt];
+   for(const n of [7,14,30]){
+    const q=earlyQuality(v,n,latest),rows=q.rows;
+    if(q.state==='期間未到達・反映待ち'||q.state==='未取得'||q.state==='取得失敗'||!rows.length){cells.push('','','',rows.length,q.state==='取得済み（日付境界は暫定）'?'一部欠損・要確認（API日別行0件）':q.state);continue;}
+    const views=rows.reduce((s,r)=>s+r.views,0),subs=rows.reduce((s,r)=>s+r.subs,0);
+    const valid=rows.filter(r=>r.ret!==null),weight=valid.reduce((s,r)=>s+r.views,0);
+    const ret=weight?valid.reduce((s,r)=>s+r.views*r.ret,0)/weight:null;
+    cells.push(views,subs,ret===null?'':ret.toFixed(3),rows.length,q.state+(q.missing.length?'（未返却日：'+q.missing.join('、')+'。0か欠損か未判定）':''));
+   }
+   return cells;
+  });
+  head.push('動画尺(秒)');
+  for(const n of [7,14,30])head.push(n+'日平均視聴時間(秒)',n+'日高評価',n+'日コメント',n+'日共有',n+'日追加指標状態');
+  for(let i=0;i<videos.length;i++){
+   const v=videos[i],r=records[i];r.push(videoDurations.get(v.id)??'');
+   for(const n of [7,14,30]){const e=extraFor(v,n);r.push(e.avg==null?'':e.avg.toFixed(2),e.likes??'',e.comments??'',e.shares??'',e.state);}
+  }
+  // Diagnostic only: compare independently retrieved API values without overwriting either.
+  head.push('動画尺の取得元','動画尺精度','精密動画尺(秒)','精密動画尺の取得状況');
+  for(let i=0;i<videos.length;i++)records[i].push(videoDurations.has(videos[i].id)?'YouTube Data API contentDetails.duration':'未取得',videoDurations.has(videos[i].id)?'ISO 8601の整数秒表記（ミリ秒精度なし）':'未取得',videoPreciseDurations.get(videos[i].id)??'',videoDurationPrecisionNotes.get(videos[i].id)||'未取得');
+  for(const n of [7,14,30])head.push(n+'日独自計算視聴割合(%)',n+'日APIとの差(ポイント)',n+'日整合性診断');
+  for(let i=0;i<videos.length;i++){
+   const v=videos[i],row=records[i],dur=videoDurations.get(v.id);
+   for(let j=0;j<3;j++){
+    const n=[7,14,30][j],apiRet=Number(row[5+j*5+2]),retPresent=row[5+j*5+2]!=='';
+    const extra=extraFor(v,n),q=earlyQuality(v,n);
+    if(!(dur>0)||extra.avg==null||!retPresent||!Number.isFinite(apiRet)||q.missing.length||!q.rows.length||extra.state.startsWith('要確認')){
+     row.push('','','判定不可（未取得・欠損・期間未到達など）');continue;
+    }
+    const calc=extra.avg/dur*100,diff=apiRet-calc;
+    row.push(calc.toFixed(3),diff.toFixed(3),Math.abs(diff)>1?'差異あり・要確認（仕様または集計分母の違い）':'参考一致（完全な同一定義は未検証）');
+   }
+  }
+  for(const n of [7,14,30])head.push(n+'日エンゲージビュー',n+'日エンゲージビュー状態');
+  for(let i=0;i<videos.length;i++)for(const n of [7,14,30]){const e=engagedFor(videos[i],n);records[i].push(e.count??'',e.state);}
+  return {cat,videos,head,records};
+ }
+ function extraFor(v,n){
+  const end=earlyAdd(v.publishedAt,n-1);
+  if(end>earlyLatest())return {state:'期間未到達'};
+  if(!extraRows.has(v.id))return {state:extraErrors.get(v.id)||'未取得'};
+  const rows=extraRows.get(v.id).filter(r=>r.day>=v.publishedAt&&r.day<=end);
+  const found=new Set(rows.map(r=>r.day));let missing=0;
+  for(let i=0;i<n;i++)if(!found.has(earlyAdd(v.publishedAt,i)))missing++;
+  const views=rows.filter(r=>r.avgDuration!==null).reduce((s,r)=>s+r.views,0);
+  return {state:missing?'要確認（未返却日'+missing+'日）':'取得済み（日付境界は暫定）',
+   avg:views?rows.reduce((s,r)=>s+(r.avgDuration===null?0:r.avgDuration*r.views),0)/views:null,
+   likes:rows.reduce((s,r)=>s+r.likes,0),comments:rows.reduce((s,r)=>s+r.comments,0),shares:rows.reduce((s,r)=>s+r.shares,0)};
+ }
+ function engagedFor(v,n){
+  const end=earlyAdd(v.publishedAt,n-1);
+  if(end>earlyLatest())return {state:'期間未到達'};
+  if(!engagedRows.has(v.id))return {state:engagedErrors.has(v.id)?'取得失敗：'+engagedErrors.get(v.id):'未取得'};
+  const rows=engagedRows.get(v.id).filter(r=>r.day>=v.publishedAt&&r.day<=end);
+  if(!rows.length)return {state:'日別行なし・要確認'};
+  const found=new Set(rows.map(r=>r.day)),missing=[];
+  for(let i=0;i<n;i++){const day=earlyAdd(v.publishedAt,i);if(!found.has(day))missing.push(day);}
+  return {count:rows.reduce((s,r)=>s+r.count,0),state:missing.length?'要確認（未返却日：'+missing.join('、')+'）':'取得済み（日付境界は暫定）'};
+ }
+ function csvOf(data){return '\ufeff'+[data.head,...data.records].map(row=>row.map(quote).join(',')).join('\r\n');}
+ function download(contents,filename){const blob=new Blob([contents],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+ byId('categoryDetailCsv').onclick=()=>{const d=build();if(!d.videos.length){status.textContent='対象動画がありません。';return;}download(csvOf(d),'zerosaka-category-detail-'+(mode==='Shorts'?'shorts':'long')+'-'+(d.cat==='全企画'?'all':d.cat)+'.csv');status.textContent=d.videos.length+'本の企画別詳細CSVを保存しました。未取得は空欄と状態で区別しています。';};
+ byId('categoryDetailCopy').onclick=async()=>{const d=build();if(!d.videos.length){status.textContent='対象動画がありません。';return;}const out=['【ゼロサカ｜企画別・全動画詳細データ】','動画形式：'+mode,'企画：'+d.cat,'対象動画数：'+d.videos.length+'本','取得日時：'+new Date().toLocaleString('ja-JP',{timeZone:'Asia/Tokyo'})+' JST','集計基準：公開日UTCを開始日とする暦日。YouTube Analyticsの日別集計は太平洋時間（America/Los_Angeles）。厳密な公開後168時間ではありません。','未返却の日別行は0と断定しません。追加指標は別APIで取得し、失敗時は未取得として表示します。高評価・コメント・共有は期間中の発生数で、現在の累計値とは異なります。','エンゲージビューはAPI自動取得の回数であり、Studioの「視聴を継続した割合」ではありません。両者を同一視したり再生数で割って視聴継続率と呼んだりしません。','整合性診断は表示動画尺と日別API指標の参考比較です。v2.3.23では所有者向けfileDetails.durationMsも追加照会し、取得できた場合だけ精密尺で参考再計算します。APIの平均視聴割合は上書きしません。動画尺の秒単位表記や視聴時間の集計分母などによる差の可能性があり、原因を確定するものではありません。',''];for(const row of d.records){out.push('■ '+row[1]);out.push('動画ID：'+row[0]+' ／ 公開日：'+row[4]);out.push('動画尺：'+(videoDurations.has(row[0])?videoDurations.get(row[0])+'秒（YouTube Data API contentDetails.duration／整数秒・ミリ秒精度なし）':'未取得'));out.push('精密動画尺：'+(videoPreciseDurations.has(row[0])?videoPreciseDurations.get(row[0]).toFixed(3)+'秒（fileDetails.durationMs／所有者向け）':'未取得')+' ／ '+(videoDurationPrecisionNotes.get(row[0])||'照会対象外'));out.push('視聴を継続した割合：公開APIから取得不可（参考値で代用しません）');for(let i=0;i<3;i++){const k=5+i*5;out.push([7,14,30][i]+'日（集計 '+earlyAdd(row[4],0)+' ～ '+earlyAdd(row[4],[7,14,30][i]-1)+'／太平洋時間の日別行）：再生 '+label(row[k]||row[k]===0?row[k]:null)+' ／ 登録者 '+label(row[k+1]||row[k+1]===0?row[k+1]:null)+' ／ 平均視聴割合 '+(row[k+2]===''?'未取得':row[k+2]+'%')+' ／ '+row[k+4]);const e=extraFor(d.videos.find(v=>v.id===row[0]),[7,14,30][i]);out.push('  追加指標：平均視聴時間 '+(e.avg==null?'未取得':e.avg.toFixed(2)+'秒')+' ／ 高評価 '+label(e.likes)+' ／ コメント '+label(e.comments)+' ／ 共有 '+label(e.shares)+' ／ '+e.state);const g=engagedFor(d.videos.find(v=>v.id===row[0]),[7,14,30][i]);out.push('  エンゲージビュー（自動取得）：'+label(g.count)+'回 ／ '+g.state);
+ const v=d.videos.find(v=>v.id===row[0]),dur=videoDurations.get(row[0]),apiRet=row[k+2]===''?null:Number(row[k+2]),quality=earlyQuality(v,[7,14,30][i]);
+ if(dur>0&&e.avg!=null&&apiRet!==null&&!quality.missing.length&&quality.rows.length&& !e.state.startsWith('要確認')){
+ const calc=e.avg/dur*100,diff=apiRet-calc;
+ out.push('  整合性診断（参考）：平均視聴時間÷表示動画尺='+calc.toFixed(3)+'% ／ API平均視聴割合との差='+diff.toFixed(3)+'ポイント ／ '+(Math.abs(diff)>1?'差異あり・要確認':'参考一致（定義一致は未検証）'));
+  const precise=videoPreciseDurations.get(v.id);if(precise>0){const pc=e.avg/precise*100;out.push('  精密動画尺で再計算（参考）：'+precise.toFixed(3)+'秒 ／ 計算値='+pc.toFixed(3)+'% ／ APIとの差='+(apiRet-pc).toFixed(3)+'ポイント（原因未確定）');}
+ }else out.push('  整合性診断：判定不可（期間未到達・未取得・欠損など）');}out.push('');}out.push('【分析依頼】企画内の動画を比較し、伸びた動画の共通点・伸びなかった動画との差・次回の検証案を整理してください。未取得と要確認の数値を断定に使わないでください。');const t=out.join('\n');try{await navigator.clipboard.writeText(t);status.textContent=d.videos.length+'本の詳細レポートをコピーしました。';}catch(e){const area=document.createElement('textarea');area.value=t;area.style.position='fixed';area.style.opacity='0';document.body.append(area);area.select();const ok=document.execCommand('copy');area.remove();status.textContent=ok?'詳細レポートをコピーしました。':'コピーできませんでした。CSV保存を使ってください。';}};
+})();
+</script><script>
+// v2.3.2: scoped, copy-ready production-room reports. No credentials included.
+(function(){
+ const ty=document.getElementById('shareType'),cat=document.getElementById('shareCategory'),msg=document.getElementById('shareStatus');
+ function categories(){const list=CATS[ty.value]||[];const prev=cat.value;cat.innerHTML=list.map(x=>'<option>'+esc(x)+'</option>').join('');if(list.includes(prev))cat.value=prev;}
+ ty.onchange=categories;categories();
+ function makeReport(){const type=ty.value,category=cat.value;const videos=DATA.map(v=>({...v,type:effectiveType(v),category:effectiveCategory(v)})).filter(v=>v.type===type&&v.category===category).sort((a,b)=>b.views-a.views);const a=agg(videos);const scope=LIVE_RANGE?'Google取得期間 '+LIVE_RANGE.start+' ～ '+LIVE_RANGE.end:'保存済みデータ（公開日・日別推移が未収録）';const lines=['【ゼロサカ｜'+category+'制作室向け分析レポート】','動画形式：'+type,'企画：'+category,'データ：'+scope,'作成：'+new Date().toLocaleString('ja-JP'),'','■ 企画全体','動画数：'+a.n+'本','総再生数：'+num(a.views)+'回','1本平均再生数：'+num(Math.round(a.avg))+'回','平均視聴割合：'+(a.ret==null?'不明':a.ret.toFixed(2)+'%'),'登録者獲得：+'+num(a.subs)+'人','登録者/1000再生：'+a.rate.toFixed(2)+'人','','■ 動画別'];for(const v of videos){lines.push('・'+v.title,'  再生：'+num(v.views)+'回 / 平均視聴割合：'+(v.ret==null?'不明':v.ret.toFixed(2)+'%')+' / 登録者：+'+num(v.subs)+'人','  公開日：'+(v.publishedAt||'不明')+' / YouTube ID：'+v.id);}lines.push('','※数値は現在表示しているデータの集計対象期間の実績です。公開後7・14・30日間の実績とは異なります。','※データの取得上限・公開日の違いに注意してください。','※制作室では、この企画の事実→仮説→次に試すことを検討してください。');return {text:lines.join('\n'),count:videos.length};}
+ document.getElementById('shareCopy').onclick=async()=>{const report=makeReport();try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(report.text);}else{const t=document.createElement('textarea');t.value=report.text;t.style.position='fixed';t.style.opacity='0';document.body.appendChild(t);t.select();if(!document.execCommand('copy'))throw Error('コピー不可');t.remove();}msg.textContent=cat.value+' '+report.count+'本のレポートをコピーしました。制作室に貼り付けてください。';}catch(e){msg.textContent='自動コピーができませんでした。下のテキストを長押ししてコピーしてください。';let area=document.getElementById('shareFallback');if(!area){area=document.createElement('textarea');area.id='shareFallback';area.style.width='100%';area.style.height='170px';msg.after(area);}area.value=report.text;area.focus();area.select();}};
+})();
+</script><script id="v237nav">(()=>{const main=document.querySelector('main');if(!main)return;const nav=document.createElement('nav');nav.className='app-nav';nav.setAttribute('aria-label','アプリメニュー');const pages=[['home','ホーム'],['analysis','企画分析'],['classify','動画分類'],['tools','データ・設定']];const views={};for(const [key,label] of pages){const section=document.createElement('section');section.id='view-'+key;section.className='app-view';section.hidden=key!=='home';views[key]=section;const b=document.createElement('button');b.type='button';b.textContent=label;b.dataset.view=key;b.setAttribute('aria-current',key==='home'?'page':'false');b.addEventListener('click',()=>show(key));nav.append(b)}main.prepend(nav);for(const [key] of pages)main.append(views[key]);const getPanel=(id)=>document.getElementById(id);const panels=[...main.querySelectorAll(':scope > .panel')];const panelByTitle=(t)=>panels.find(p=>p.querySelector('h2')?.textContent.includes(t));const home=views.home,analysis=views.analysis,classify=views.classify,tools=views.tools;const header=(parent,title,sub)=>{const h=document.createElement('h2');h.className='app-view-title';h.textContent=title;parent.append(h);const p=document.createElement('p');p.className='app-view-sub';p.textContent=sub;parent.append(p)};header(home,'ダッシュボード','まずGoogle接続で最新データを取得');const connectPanel=panels.find(p=>p.querySelector('#connect'));if(connectPanel)home.append(connectPanel);const tabs=main.querySelector('.tabs'),stats=getPanel('stats');if(tabs)home.append(tabs);if(stats)home.append(stats);const quick=document.createElement('div');quick.className='quick';for(const [label,dest] of [['企画の存続判断を見る','analysis'],['全動画CSV・検証','tools']]){const b=document.createElement('button');b.textContent=label;b.onclick=()=>show(dest);quick.append(b)}home.append(quick);header(analysis,'企画比較・存続判断','総合評価は参考判定。再生数だけでは決めません');const switcher=document.createElement('div');switcher.className='quick';for(const [label,id] of [['通常動画','long'],['Shorts','short']]){const b=document.createElement('button');b.textContent=label;b.onclick=()=>getPanel(id)?.click();switcher.append(b)}analysis.append(switcher);const series=panelByTitle('企画別の成績');if(series)analysis.append(series);
+const categoryJump=document.createElement('section');categoryJump.className='panel';categoryJump.innerHTML='<h2>企画ごとの詳細データ</h2><p class="muted">企画を選んで、動画別の公開後7・14・30日データをコピー・CSV保存できます。先に「比較データを取得」が必要です。</p><div class="controls"><select id="analysisDetailCategory" aria-label="詳細データの企画"></select><button class="btn" id="analysisDetailFetch" type="button">この企画の詳細データを取得</button><button class="btn" id="analysisDetailCopy" type="button" style="background:#183b2c;color:white">この企画の詳細データをコピー</button><button class="btn" id="analysisDetailCsv" type="button">この企画の詳細CSVを保存</button></div><p class="muted" id="analysisDetailStatus" role="status"></p>';
+analysis.append(categoryJump);
+const analysisCategory=categoryJump.querySelector('#analysisDetailCategory');
+const syncAnalysisCategories=()=>{const choices=window.CATS?.[mode]|| (mode==='Shorts'?['クイズ','CHOICE','ゼロからサッカー','PREVIEW／REVIEW','その他','未分類']:['サカトピ','検証企画','PROJECT 0','その他','未分類']);const prev=analysisCategory.value;analysisCategory.innerHTML=['全企画',...choices].map(c=>'<option>'+c+'</option>').join('');analysisCategory.value=choices.includes(prev)?prev:'全企画';};
+const analysisStatus=categoryJump.querySelector('#analysisDetailStatus');
+const fetchBtn=categoryJump.querySelector('#analysisDetailFetch'),copyBtn=categoryJump.querySelector('#analysisDetailCopy'),csvBtn=categoryJump.querySelector('#analysisDetailCsv');
+let detailReady=false,detailRunning=false;
+const lockDetail=()=>{copyBtn.disabled=!detailReady||detailRunning;csvBtn.disabled=!detailReady||detailRunning;fetchBtn.disabled=detailRunning;};
+const invalidateDetail=()=>{detailReady=false;lockDetail();analysisStatus.textContent='未取得：この企画の詳細データを取得してください。';};
+analysisCategory.addEventListener('change',invalidateDetail);
+for(const id of ['short','long'])document.getElementById(id)?.addEventListener('click',invalidateDetail);
+window.addEventListener('zs-early-progress',e=>{if(detailRunning){const {done,total}=e.detail;analysisStatus.textContent='取得中：'+done+' / '+total+'本を処理中… コピー・CSV保存は完了後に利用できます。';}});
+fetchBtn.onclick=async()=>{if(detailRunning)return;const original=document.getElementById('earlyCategory');if(!original)return;original.value=analysisCategory.value;detailReady=false;detailRunning=true;lockDetail();analysisStatus.textContent='取得を開始しています…';try{const result=await earlyLoad();if(!result||result.state==='error'||result.state==='empty'||result.state==='busy'){analysisStatus.textContent='取得できませんでした：'+(result?.message||'別の取得処理が実行中です');return;}detailReady=true;analysisStatus.textContent=result.state==='done'?'取得処理完了：'+result.success+'/'+result.total+'本。コピー・CSV保存できます（各期間の未取得・暫定値はレポートで確認）。':'取得処理終了（一部失敗）：'+result.success+'/'+result.total+'本。失敗した動画は未取得として扱います。';}catch(e){analysisStatus.textContent='取得失敗：'+e.message;}finally{detailRunning=false;lockDetail();}};
+invalidateDetail();
+for(const [btn,target] of [['analysisDetailCopy','categoryDetailCopy'],['analysisDetailCsv','categoryDetailCsv']])categoryJump.querySelector('#'+btn).onclick=()=>{if(!detailReady||detailRunning)return;const original=document.getElementById('earlyCategory');if(original)original.value=analysisCategory.value;document.getElementById(target)?.click();analysisStatus.textContent=document.getElementById('categoryDetailStatus')?.textContent||'出力処理を実行しました。';};
+for(const id of ['short','long'])document.getElementById(id)?.addEventListener('click',()=>setTimeout(syncAnalysisCategories,0));
+syncAnalysisCategories();header(classify,'動画の分類・確認','分類変更はこの端末に保存され、CSVにも反映');const video=panelByTitle('動画の分類');if(video)classify.append(video);header(tools,'データ取得・CSV・詳細検証','公開後7・14・30日データを一括保存できます');for(const id of ['earlyPanel','verifyPanel','sharePanel']){const p=getPanel(id);if(p)tools.append(p)}const guide=panelByTitle('指標の見方');if(guide)tools.append(guide);for(const p of panels)if(!p.closest('.app-view'))tools.append(p);for(const node of [...main.children])if(node.classList?.contains('notice'))tools.append(node);const footer=main.querySelector('footer');if(footer)tools.append(footer);function show(key){for(const [k] of pages){views[k].hidden=k!==key;nav.querySelector('[data-view="'+k+'"]').setAttribute('aria-current',k===key?'page':'false')}window.scrollTo({top:0,behavior:'instant'})}show('home')})();</script>
+<style id="v238style">
+.app-nav{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:12px 0}
+.app-nav button{min-height:78px;font-size:16px;padding:13px 8px;border-radius:13px;box-shadow:0 1px 3px #173b2b12}
+.app-nav button[aria-current="page"]{border-color:#173b2b;box-shadow:inset 0 0 0 1px #173b2b}
+#view-tools .tool-actions{background:#fff;border:1px solid #dce6de;border-radius:13px;padding:16px;margin:14px 0}
+#view-tools .tool-actions h2{font-size:18px;margin:0 0 8px}
+#view-tools .tool-actions .btn{width:100%;margin:7px 0;min-height:48px}
+#view-tools .tool-actions p{font-size:12px;color:#65776c;margin:0 0 12px}
+#view-classify .app-view-title{display:none}
+</style>
+<script id="v238layout">(()=>{
+const tools=document.getElementById('view-tools');
+if(!tools)return;
+const actions=document.createElement('section');
+actions.className='tool-actions';
+actions.innerHTML='<h2>分析結果をコピー</h2><p>ChatGPTに貼り付けて相談するときに使います。</p>';
+const copy=document.getElementById('copyAll');
+const copyStatus=document.getElementById('copyStatus');
+if(copy)actions.append(copy);
+if(copyStatus)actions.append(copyStatus);
+const h=document.createElement('h2');h.textContent='CSVファイルに保存';actions.append(h);
+const p=document.createElement('p');p.textContent='用途に合わせて保存するデータを選べます。';actions.append(p);
+for(const id of ['earlyExportAll','earlyExport','export']){
+ const button=document.getElementById(id);
+ if(button)actions.append(button);
+}
+const desc=document.createElement('p');
+desc.textContent='「全動画の詳細データを保存」は公開後7・14・30日のデータをまとめて出力します。';
+actions.append(desc);
+tools.insertBefore(actions,tools.querySelector('#earlyPanel')||tools.firstChild);
+const early=document.getElementById('earlyPanel');
+if(early){
+ const note=early.querySelector('.notes');
+ if(note&&note.textContent.includes('全動画・7/14/30日を一括CSV保存')){
+ note.textContent='全動画の詳細データは上の「CSVファイルに保存」から取得できます。通信に時間がかかることがあります。';
+ }
+}
+})();</script>
+
+<style id="v239styles">
+#view-tools .app-view-sub{margin-bottom:16px}
+#view-tools .tool-actions{margin-top:8px;margin-bottom:12px}
+#view-tools .tool-actions h2:not(:first-child){margin-top:20px}
+#view-tools .tool-actions .btn{display:block}
+#view-tools .advanced-wrap{border:1px solid #dce6de;background:#fff;border-radius:14px;margin:12px 0;overflow:hidden}
+#view-tools .advanced-wrap>summary{padding:18px 16px;font-weight:700;font-size:17px;color:#173b2b;cursor:pointer;list-style-position:inside}
+#view-tools .advanced-wrap>summary small{display:block;font-weight:400;font-size:12px;color:#6a7c71;margin-top:5px}
+#view-tools .advanced-wrap>.panel{margin:10px;border:1px solid #dce6de!important;box-shadow:none}
+#view-tools .advanced-wrap:not([open])>.panel{display:none}
+#view-tools .notes{font-size:13px}
+#view-tools .compact-note{color:#64776b;font-size:13px;padding:0 5px;margin:8px 0}
+</style>
+<script id="v239tidy">(()=>{
+const tools=document.getElementById('view-tools');
+if(!tools)return;
+const heading=tools.querySelector('.app-view-title');
+if(heading)heading.textContent='データ・設定';
+const sub=tools.querySelector('.app-view-sub');
+if(sub)sub.textContent='分析結果のコピー・CSV保存・必要なときだけ詳細検証';
+const early=document.getElementById('earlyPanel');
+if(early){
+ const h=early.querySelector('h2');
+ if(h)h.innerHTML='公開後7・14・30日の比較 <span class="pill">詳細</span>';
+ const notes=early.querySelectorAll('.notes');
+ if(notes.length>1){
+  const disclosure=document.createElement('details');
+  disclosure.className='method-notes';
+  const sum=document.createElement('summary');
+  sum.textContent='集計方法と注意事項を見る';
+  disclosure.append(sum);
+  notes.forEach(n=>disclosure.append(n));
+  early.append(disclosure);
+ }
+}
+const advanced=document.createElement('details');
+advanced.className='advanced-wrap';
+const summary=document.createElement('summary');
+summary.innerHTML='詳細分析・検証を開く<small>公開後7・14・30日比較、1本検証、企画別レポートなど</small>';
+advanced.append(summary);
+for(const id of ['earlyPanel','verifyPanel','sharePanel']){
+ const p=document.getElementById(id);
+ if(p)advanced.append(p);
+}
+const actions=tools.querySelector('.tool-actions');
+if(actions)actions.insertAdjacentElement('afterend',advanced);
+else tools.prepend(advanced);
+const guide=[...tools.querySelectorAll('.panel')].find(p=>p.querySelector('h2')?.textContent.includes('指標の見方'));
+if(guide){
+ const more=document.createElement('details');more.className='advanced-wrap';
+ const title=document.createElement('summary');title.textContent='指標の説明を見る';more.append(title);more.append(guide);
+ advanced.insertAdjacentElement('afterend',more);
+}
+})();</script>
+<style id="v2311status">#view-tools .tool-actions #earlyStatus{margin:7px 0 14px;padding:12px;border-radius:9px;background:#f3f7f4;border:1px solid #dce6de;font-size:14px;line-height:1.6;white-space:pre-wrap}#view-tools .tool-actions #earlyExportAll:disabled{opacity:.6}</style>
+<script id="v2311fix">(()=>{
+const tools=document.getElementById('view-tools');
+const action=tools?.querySelector('.tool-actions');
+const btn=document.getElementById('earlyExportAll');
+const status=document.getElementById('earlyStatus');
+if(!action||!btn||!status)return;
+// The status was inside a collapsed details section; users could not see auth/error/progress messages.
+btn.insertAdjacentElement('afterend',status);
+status.setAttribute('aria-live','polite');
+status.textContent='全動画の詳細データを保存する前に、ホームでYouTubeデータを更新してください。';
+btn.addEventListener('click',()=>{
+ if(!accessToken){status.textContent='Google未接続です。ホームに戻り「YouTubeデータを更新」を押してから、もう一度お試しください。';return;}
+ status.textContent='保存処理を開始します。動画数によって時間がかかります。';
+}, {capture:true});
+})();</script>
+<style id="v240final">
+/* Final mobile-first cleanup: existing data and event handlers stay intact. */
+body{background:#f5f7f5}
+main{max-width:950px}
+.app-nav{gap:9px}
+.app-nav button{min-height:66px;font-size:15px;box-shadow:none}
+.app-view-title{font-size:19px;margin:16px 0 4px}
+.panel{box-shadow:0 1px 3px #173b2b08}
+#view-home .app-view-sub{margin-bottom:12px}
+#view-home #connect{font-size:16px;min-height:54px;flex:2 1 190px}
+#view-home #period{min-height:54px;flex:1 1 120px}
+#view-home #restore{width:100%}
+#view-home #liveStatus{font-weight:600}
+#view-analysis .panel{margin:12px 0}
+#view-analysis .controls .btn{min-height:48px}
+#view-tools .tool-actions .btn{min-height:50px}
+#view-tools .notice{font-size:12px}
+@media(max-width:450px){.app-nav button{min-height:64px;padding:10px 4px;font-size:14px}#view-home .controls{gap:9px}#view-home #connect{width:100%;flex-basis:100%}#view-home #period{flex:1 1 100%}.app-view{padding-bottom:16px}}
+</style></body></html>
